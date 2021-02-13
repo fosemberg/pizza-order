@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import * as _ from 'lodash';
 
@@ -287,185 +287,9 @@ const ChooseSize: React.FC = () => {
   );
 };
 
-type NameType = 'name' | 'email' | 'confirm' | 'address' | 'state' | 'phone';
-
-interface Field {
-  label: string;
-  name: NameType;
-  icon: string;
-  placeholder: string;
-  modifier?: (args: any) => string | number;
-}
-
-const fields: Field[] = [
-  {
-    label: 'Name',
-    name: 'name',
-    icon: 'person',
-    placeholder: 'Frodo Baggins'
-  },
-  {
-    label: 'Email',
-    name: 'email',
-    icon: 'envelope',
-    placeholder: 'fbaggins@aol.com'
-  },
-  {
-    label: 'Confirm Email',
-    name: 'confirm',
-    icon: 'envelope',
-    placeholder: 'fbaggins@aol.com'
-  },
-  {
-    label: 'Address',
-    name: 'address',
-    icon: 'marker',
-    placeholder: '123 Shire Way.'
-  },
-  {
-    label: 'State',
-    name: 'state',
-    icon: 'map',
-    placeholder: 'CA',
-    modifier: (text: string) => text.toUpperCase()
-  },
-  {
-    label: 'Phone',
-    name: 'phone',
-    icon: 'phone',
-    placeholder: '310-555-5961',
-    modifier: (text: string) => {
-      return text.length === 3 || text.length === 7 ? `${text}-` : text;
-    }
-  }
-];
-
-interface Errors {
-  name: string | boolean;
-  email: string | boolean;
-  confirm: string | boolean;
-  address: string | boolean;
-  state: string | boolean;
-  phone: string | boolean;
-}
-
-const formInitial = {
-  name: '',
-  email: '',
-  confirm: '',
-  address: '',
-  state: '',
-  phone: '',
-  errors: {
-    name: true,
-    email: true,
-    confirm: true,
-    address: true,
-    state: true,
-    phone: true
-  } as Errors
-};
-
-const validEmailRegex = RegExp(
-  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-);
-const validPhoneRegex = RegExp(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
-
-const BuyerDetails: React.FC = (props) => {
-  const [state, setState] = React.useState(formInitial);
-  const { setFormIsValid } = React.useContext(Context);
-
-  const validateForm = (errors: Errors) => {
-    const isValid = Object.values(errors).every((val) => !val);
-    setFormIsValid(isValid);
-  };
-
-  const validate = (name: NameType) => () => {
-    const { errors } = state;
-    const value = state[name];
-
-    // prettier-ignore
-    switch (name) {
-      case 'name':
-        errors.name = value.length < 2 ? 'Name too short' : false;
-        break;
-      case 'email':
-        errors.email = !validEmailRegex.test(value)
-          ? 'Invalid email'
-          : false;
-        break;
-      case 'confirm':
-        errors.confirm = state.email !== value
-          ? 'Email does not match'
-          : false;
-        break;
-      case 'address':
-        errors.address = value.trim().split(' ').length < 3
-          ? 'Address too short'
-          : false;
-        break;
-      case 'state':
-        errors.state = value.length !== 2
-          ? 'Invalid state'
-          : false;
-        break;
-      case 'phone':
-        errors.phone = !validPhoneRegex.test(value)
-          ? 'Invalid phone'
-          : false;
-        break;
-      default:
-        break;
-    }
-
-    validateForm(errors);
-    setState((prev) => ({ ...prev, errors }));
-  };
-
-  const handleChange = (e: ChangeEvent, modifier: any) => {
-    e.preventDefault();
-    const { name, value } = e.target as HTMLInputElement;
-
-    setState((prev) => ({
-      ...prev,
-      [name]: modifier ? modifier(value) : value
-    }));
-  };
-
-  return (
-    <div className="buyer">
-      {fields.map((f, i) => (
-        <div className="buyer__field neu-flat-light" key={i}>
-          {state.errors[f.name] && (
-            <span className="buyer__error">{state.errors[f.name]}</span>
-          )}
-          <label className="buyer__label">
-            {f.label}
-            <span className="buyer__icon-wrap">
-              <Icon className="buyer__icon" name={f.icon} />
-            </span>
-          </label>
-          <input
-            className="buyer__input neu-pressed-light"
-            type="text"
-            name={f.name}
-            placeholder={f.placeholder}
-            onChange={(e) => handleChange(e, f.modifier)}
-            value={state[f.name]}
-            onBlur={validate(f.name)}
-            formNoValidate
-          />
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const PizzaForm: React.FC = () => (
   <div className="form-container">
     <div className="form-inner">
-      <BuyerDetails />
-      <Divider text="Choose Pizza" />
       <ChooseSize />
       <ChooseToppings />
       <Divider text="Place Order" />
@@ -531,7 +355,7 @@ interface ContextProps {
 
 const Context = React.createContext<ContextProps>({
   order: { toppings: [], size: '' },
-  formIsValid: false,
+  formIsValid: true,
   setOrder: () => {
   },
   setFormIsValid: () => {
@@ -543,7 +367,7 @@ const App: React.FC = () => {
     toppings: [{ name: 'pepperoni' as Topping, price: 150, icon: Pepperoni }],
     size: 'medium'
   });
-  const [formIsValid, setFormIsValid] = React.useState(false);
+  const [formIsValid, setFormIsValid] = React.useState(true);
 
   return (
     <Context.Provider
