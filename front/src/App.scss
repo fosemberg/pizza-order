@@ -109,6 +109,11 @@ body {
   }
 }
 
+.form-inner {
+  display: flex;
+  flex-direction: column;
+}
+
 .form-container {
   background: #edf2f6;
   overflow-y: scroll;
@@ -170,9 +175,10 @@ body {
 
   &__list {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(3rem, 1fr));
-    grid-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    //grid-template-columns: repeat(4, minmax(3rem, 1fr));
+    //grid-gap: 1rem;
     padding: 1.25rem 2.5rem;
   }
 
@@ -294,6 +300,6 @@ body {
   }
 }
 
-.pizza__topping {
+.pizza__part {
   position: absolute;
 }

@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import * as _ from 'lodash';
 
 import './App.scss';
+import PizzaToggle from './components/PizzaToggle';
+import CardToggle from './components/CardToggle';
 
 const Base = 'https://svgshare.com/i/PoA.svg';
 const Bacon = 'https://svgshare.com/i/Ppd.svg';
@@ -33,10 +35,6 @@ const formatPrice = (amount: number, currencyId?: string) => {
 
   const formatter = new Intl.NumberFormat('en-US', options);
   return formatter.format(amount / 100);
-};
-
-const calcTotal = (order: Order): number => {
-  return _.sumBy(order.toppings, 'price') + sizePrices[order.size].price;
 };
 
 const PhoneIcon: React.FC = (props) => (
@@ -114,25 +112,30 @@ const Divider: React.FC<{ text: string }> = (props) => (
 
 const PlaceOrder: React.FC = () => {
   const { order, formIsValid } = React.useContext(Context);
+  const {toppings, size} = order;
+
+  const sizePrice = sizePrices[size].price
+  const toppingsPrice = toppings.length > 3
+    ? (toppings.length - 3) * 50
+    : 0
+  const totalPrice = sizePrice + toppingsPrice
 
   return (
     <div className="order">
       <div className="order__summary">
         <ul className="order__list">
           <li className="order__item">
-            <span>{formatToppingText(order.size)} Size</span>
-            <span>{formatPrice(sizePrices[order.size].price)}</span>
+            <span>{formatToppingText(size)} Size</span>
+            <span>{formatPrice(sizePrice)}</span>
           </li>
-          {order.toppings.map((t) => (
-            <li key={t.name} className="order__item">
-              <span>{formatToppingText(t.name)}</span>
-              <span>{formatPrice(t.price)}</span>
-            </li>
-          ))}
+          <li key="Toppings" className="order__item">
+            <span>Toppings</span>
+            <span>{formatPrice(toppingsPrice)}</span>
+          </li>
         </ul>
         <div className="order__total">
           <span>Total:</span>
-          <span>{formatPrice(calcTotal(order))}</span>
+          <span>{formatPrice(totalPrice)}</span>
         </div>
       </div>
       <button
@@ -166,21 +169,20 @@ type Topping =
 interface ToppingData {
   name: Topping;
   icon: string;
-  price: number;
   onPizza?: string;
 }
 
 const toppings: ToppingData[] = [
-  { name: 'pepperoni', price: 150, icon: Pepperoni, onPizza: 'pepperoni.png' },
-  { name: 'mushroom', price: 99, icon: Mushroom, onPizza: 'mushrooms.png' },
-  { name: 'onion', price: 99, icon: Onion, onPizza: 'onions.png' },
-  { name: 'sausage', price: 5, icon: Onion, onPizza: 'sausage.png' },
-  { name: 'bacon', price: 150, icon: Bacon, onPizza: 'bacon.png' },
-  { name: 'extra-cheese', price: 200, icon: Mozzarella, onPizza: 'extra-cheese.png' },
-  { name: 'black-olives', price: 125, icon: Olive, onPizza: 'black-olives.png' },
-  { name: 'green-peppers', price: 99, icon: Pepper, onPizza: 'green-peppers.png' },
-  { name: 'pineapple', price: 99, icon: Pepper, onPizza: 'pineapple.png' },
-  { name: 'spinach', price: 99, icon: Pepper, onPizza: 'spinach.png' },
+  { name: 'pepperoni', icon: Pepperoni, onPizza: 'pepperoni.png' },
+  { name: 'mushroom', icon: Mushroom, onPizza: 'mushrooms.png' },
+  { name: 'onion', icon: Onion, onPizza: 'onions.png' },
+  { name: 'sausage', icon: Onion, onPizza: 'sausage.png' },
+  { name: 'bacon', icon: Bacon, onPizza: 'bacon.png' },
+  { name: 'extra-cheese', icon: Mozzarella, onPizza: 'extra-cheese.png' },
+  { name: 'black-olives', icon: Olive, onPizza: 'black-olives.png' },
+  { name: 'green-peppers', icon: Pepper, onPizza: 'green-peppers.png' },
+  { name: 'pineapple', icon: Pepper, onPizza: 'pineapple.png' },
+  { name: 'spinach', icon: Pepper, onPizza: 'spinach.png' },
 ];
 
 const ChooseToppings: React.FC = () => {
@@ -201,6 +203,9 @@ const ChooseToppings: React.FC = () => {
     <div className="toppings">
       <p className="toppings__title">Toppings</p>
       <div className="toppings__list">
+        {toppings.map((topping) => (
+          <CardToggle imgSrc={`./toggles/${topping.onPizza}`} />
+        ))}
         {toppings.map((t) => (
           <div
             key={t.name}
@@ -244,9 +249,9 @@ interface SizePrice {
 }
 
 const sizePrices = {
-  small: { price: 999, inches: 8 },
-  medium: { price: 1299, inches: 12 },
-  large: { price: 1699, inches: 16 }
+  small: { price: 800, inches: 8 },
+  medium: { price: 1_000, inches: 12 },
+  large: { price: 1_200, inches: 16 }
 } as SizePrice;
 
 const ChooseSize: React.FC = () => {
@@ -282,6 +287,7 @@ const PizzaForm: React.FC = () => (
   <div className="form-container">
     <div className="form-inner">
       <ChooseSize />
+      <CardToggle imgSrc="./toggles/thin-thick-middle-pizza-with-arrows.png" />
       <ChooseToppings />
       <Divider text="Place Order" />
       <PlaceOrder />
@@ -298,30 +304,29 @@ const PizzaViewer: React.FC = () => {
       <div className="pizza__inner">
         <div className="pizza__base-container">
           <img
-            className="pizza__topping"
+            className="pizza__part"
             src={`./pizza-base.png`}
             alt=""
           />
           <img
-            className="pizza__topping"
+            className="pizza__part"
             src={`./pizza-sauce.png`}
             alt=""
           />
-          <div id="pizza-img">
-            {order.toppings.map(({onPizza}, i) => (
-              <img
-                className="pizza__topping"
-                src={`./toppings/on-pizza/${onPizza}`}
-                alt=""
-              />
-            ))}
-          </div>
-          <img className="pizza__base" src={Base} alt="base" />
+          {order.toppings.map(({onPizza}, i) => (
+            <img
+              className="pizza__part"
+              src={`./toppings/on-pizza/${onPizza}`}
+              alt=""
+            />
+          ))}
         </div>
       </div>
     </div>
   );
 };
+
+
 
 type Order = {
   toppings: ToppingData[];
@@ -346,7 +351,7 @@ const Context = React.createContext<ContextProps>({
 
 const App: React.FC = () => {
   const [order, setOrder] = React.useState({
-    toppings: [{ name: 'pepperoni' as Topping, price: 150, icon: Pepperoni }],
+    toppings: [],
     size: 'medium'
   });
   const [formIsValid, setFormIsValid] = React.useState(true);
