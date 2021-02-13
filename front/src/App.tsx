@@ -4,23 +4,17 @@ import * as _ from 'lodash';
 
 import './App.scss';
 
-const Anchovy = 'https://svgshare.com/i/Po9.svg';
 const Base = 'https://svgshare.com/i/PoA.svg';
-const Board = 'https://svgshare.com/i/Pny.svg';
 const Bacon = 'https://svgshare.com/i/Ppd.svg';
-const Basil = 'https://svgshare.com/i/Ppr.svg';
-const Chili = 'https://svgshare.com/i/Poi.svg';
 const Mozzarella = 'https://svgshare.com/i/PpB.svg';
 const Mushroom = 'https://svgshare.com/i/Ppm.svg';
 const Olive = 'https://svgshare.com/i/PoH.svg';
 const Onion = 'https://svgshare.com/i/PoX.svg';
 const Pepper = 'https://svgshare.com/i/Ppn.svg';
 const Pepperoni = 'https://svgshare.com/i/PqD.svg';
-const Sweetcorn = 'https://svgshare.com/i/PqP.svg';
-const Tomato = 'https://svgshare.com/i/Pop.svg';
 
-const capitalize = (str: string) => {
-  return str[0].toUpperCase() + str.slice(1);
+const formatToppingText = (str: string) => {
+  return str[0].toUpperCase() + str.slice(1).replace(/-/g, ' ');
 };
 
 const classList = (classes: object) => {
@@ -126,12 +120,12 @@ const PlaceOrder: React.FC = () => {
       <div className="order__summary">
         <ul className="order__list">
           <li className="order__item">
-            <span>{capitalize(order.size)} Size</span>
+            <span>{formatToppingText(order.size)} Size</span>
             <span>{formatPrice(sizePrices[order.size].price)}</span>
           </li>
           {order.toppings.map((t) => (
             <li key={t.name} className="order__item">
-              <span>{capitalize(t.name)}</span>
+              <span>{formatToppingText(t.name)}</span>
               <span>{formatPrice(t.price)}</span>
             </li>
           ))}
@@ -158,38 +152,35 @@ const PlaceOrder: React.FC = () => {
 };
 
 type Topping =
-  | 'anchovy'
-  | 'bacon'
-  | 'basil'
-  | 'chili'
-  | 'mozzarella'
-  | 'mushroom'
-  | 'olive'
-  | 'onion'
-  | 'pepper'
   | 'pepperoni'
-  | 'sweetcorn'
-  | 'tomato';
+  | 'mushroom'
+  | 'onion'
+  | 'sausage'
+  | 'bacon'
+  | 'extra-cheese'
+  | 'black-olives'
+  | 'green-peppers'
+  | 'pineapple'
+  | 'spinach';
 
 interface ToppingData {
   name: Topping;
   icon: string;
   price: number;
+  onPizza?: string;
 }
 
 const toppings: ToppingData[] = [
-  { name: 'anchovy', price: 300, icon: Anchovy },
-  { name: 'bacon', price: 150, icon: Bacon },
-  { name: 'basil', price: 100, icon: Basil },
-  { name: 'chili', price: 250, icon: Chili },
-  { name: 'mozzarella', price: 200, icon: Mozzarella },
-  { name: 'mushroom', price: 99, icon: Mushroom },
-  { name: 'olive', price: 125, icon: Olive },
-  { name: 'onion', price: 99, icon: Onion },
-  { name: 'pepper', price: 99, icon: Pepper },
-  { name: 'pepperoni', price: 150, icon: Pepperoni },
-  { name: 'sweetcorn', price: 150, icon: Sweetcorn },
-  { name: 'tomato', price: 175, icon: Tomato }
+  { name: 'pepperoni', price: 150, icon: Pepperoni, onPizza: 'pepperoni.png' },
+  { name: 'mushroom', price: 99, icon: Mushroom, onPizza: 'mushrooms.png' },
+  { name: 'onion', price: 99, icon: Onion, onPizza: 'onions.png' },
+  { name: 'sausage', price: 5, icon: Onion, onPizza: 'sausage.png' },
+  { name: 'bacon', price: 150, icon: Bacon, onPizza: 'bacon.png' },
+  { name: 'extra-cheese', price: 200, icon: Mozzarella, onPizza: 'extra-cheese.png' },
+  { name: 'black-olives', price: 125, icon: Olive, onPizza: 'black-olives.png' },
+  { name: 'green-peppers', price: 99, icon: Pepper, onPizza: 'green-peppers.png' },
+  { name: 'pineapple', price: 99, icon: Pepper, onPizza: 'pineapple.png' },
+  { name: 'spinach', price: 99, icon: Pepper, onPizza: 'spinach.png' },
 ];
 
 const ChooseToppings: React.FC = () => {
@@ -237,7 +228,7 @@ const ChooseToppings: React.FC = () => {
             >
               <img className="toppings__img" src={t.icon} alt={t.name} />
             </span>
-            <span className="toppings__text">{capitalize(t.name)}</span>
+            <span className="toppings__text">{formatToppingText(t.name)}</span>
           </div>
         ))}
       </div>
@@ -306,36 +297,27 @@ const PizzaViewer: React.FC = () => {
       <h1 className="pizza__title">Mr. Pizza</h1>
       <div className="pizza__inner">
         <div className="pizza__base-container">
-          <div className="pizza__toppings">
-            {order.toppings.map((topping, i) => (
-              <div key={i}>
-                <div
-                  className={`pizza__topping pizza__topping--${topping.name}`}
-                />
-                <div
-                  className={`pizza__topping pizza__topping--${topping.name}`}
-                />
-                <div
-                  className={`pizza__topping pizza__topping--${topping.name}`}
-                />
-                <div
-                  className={`pizza__topping pizza__topping--${topping.name}`}
-                />
-                <div
-                  className={`pizza__topping pizza__topping--${topping.name}`}
-                />
-                <div
-                  className={`pizza__topping pizza__topping--${topping.name}`}
-                />
-                <div
-                  className={`pizza__topping pizza__topping--${topping.name}`}
-                />
-              </div>
+          <img
+            className="pizza__topping"
+            src={`./pizza-base.png`}
+            alt=""
+          />
+          <img
+            className="pizza__topping"
+            src={`./pizza-sauce.png`}
+            alt=""
+          />
+          <div id="pizza-img">
+            {order.toppings.map(({onPizza}, i) => (
+              <img
+                className="pizza__topping"
+                src={`./toppings/on-pizza/${onPizza}`}
+                alt=""
+              />
             ))}
           </div>
           <img className="pizza__base" src={Base} alt="base" />
         </div>
-        <img className="pizza__board" src={Board} alt="board" />
       </div>
     </div>
   );
