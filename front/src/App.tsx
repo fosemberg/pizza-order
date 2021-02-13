@@ -201,7 +201,6 @@ const ChooseToppings: React.FC = () => {
 
   return (
     <div className="toppings">
-      <p className="toppings__title">Toppings</p>
       <div className="toppings__list">
         {toppings.map((topping) => (
           <CardToggle imgSrc={`./toggles/${topping.onPizza}`} />
@@ -263,7 +262,6 @@ const ChooseSize: React.FC = () => {
 
   return (
     <div className="choose-size">
-      <p className="choose-size__title">Size</p>
       <div className="choose-size__dishes">
         {Object.entries(sizePrices).map(([size, details], i) => (
           <div
@@ -286,8 +284,11 @@ const ChooseSize: React.FC = () => {
 const PizzaForm: React.FC = () => (
   <div className="form-container">
     <div className="form-inner">
+      <Divider text="Size" />
       <ChooseSize />
+      <Divider text="Crust type" />
       <CardToggle imgSrc="./toggles/thin-thick-middle-pizza-with-arrows.png" />
+      <Divider text="Toppings" />
       <ChooseToppings />
       <Divider text="Place Order" />
       <PlaceOrder />
@@ -299,10 +300,7 @@ const PizzaViewer: React.FC = () => {
   const { order } = React.useContext(Context);
 
   return (
-    <div className="pizza">
-      <h1 className="pizza__title">Mr. Pizza</h1>
-      <div className="pizza__inner">
-        <div className="pizza__base-container">
+    <div className="PizzaViewer">
           <img
             className="pizza__part"
             src={`./pizza-base.png`}
@@ -320,8 +318,6 @@ const PizzaViewer: React.FC = () => {
               alt=""
             />
           ))}
-        </div>
-      </div>
     </div>
   );
 };

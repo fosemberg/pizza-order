@@ -63,8 +63,19 @@ body {
 .app {
   height: 100vh;
   width: 100vw;
-  display: grid;
-  grid-template-columns: 2fr 3fr;
+  display: flex;
+}
+
+.PizzaViewer {
+  flex-basis: 500px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .pizza__part {
+    position: absolute;
+  }
 }
 
 .divider {
@@ -112,10 +123,11 @@ body {
 .form-inner {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .form-container {
-  background: #edf2f6;
+  background: rgb(252, 252, 252);
   overflow-y: scroll;
 }
 
@@ -177,8 +189,7 @@ body {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    //grid-template-columns: repeat(4, minmax(3rem, 1fr));
-    //grid-gap: 1rem;
+    justify-content: space-around;
     padding: 1.25rem 2.5rem;
   }
 
@@ -251,55 +262,3 @@ body {
   }
 }
 
-.pizza {
-  --stripe: #f56565;
-  --bg: #f57777;
-
-  background: linear-gradient(135deg, var(--bg) 25%, transparent 25%) -50px 0,
-  linear-gradient(225deg, var(--bg) 25%, transparent 25%) -50px 0,
-  linear-gradient(315deg, var(--bg) 25%, transparent 25%),
-  linear-gradient(45deg, var(--bg) 25%, transparent 25%);
-  background-color: var(--stripe);
-  background-size: 100px 100px;
-  width: 38rem;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-  align-items: center;
-  grid-column: 1/2;
-
-  &__title {
-    position: relative;
-    font-size: 3rem;
-    text-align: center;
-    margin-top: 2rem;
-    color: white;
-    font-family: "Vast Shadow", cursive;
-    width: 100%;
-  }
-
-  &__inner {
-    width: 35rem;
-    position: relative;
-    margin-top: 8rem;
-  }
-
-  &__base-container {
-    height: 75%;
-    position: absolute;
-    right: 2.25rem;
-    top: 0;
-    width: 75%;
-  }
-
-  &__base {
-    height: 100%;
-    width: 100%;
-  }
-}
-
-.pizza__part {
-  position: absolute;
-}
