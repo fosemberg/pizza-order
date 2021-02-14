@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import ModalContainer from './containers/Modal';
-import { Order, } from './types';
+import {Order, OrderSize,} from './types';
 import { Context } from './data';
 import PizzaForm from './containers/PizzaForm';
 import PizzaDisplay from './containers/PizzaDisplay';
@@ -11,7 +11,7 @@ import './App.scss';
 
 const App: React.FC = () => {
   const [order, setOrder] = React.useState<Order>({
-    size: 'medium',
+    size: OrderSize.Medium,
     isThick: false,
     toppings: [],
   });
