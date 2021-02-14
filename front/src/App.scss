@@ -45,12 +45,6 @@ body {
   background: white;
 }
 
-
-.neu-flat-red {
-  background: #f56565;
-  box-shadow: 5px 5px 10px #8d8f90;
-}
-
 .app {
   height: 100vh;
   width: 100vw;
@@ -146,36 +140,6 @@ body {
     flex-wrap: wrap;
     justify-content: space-around;
     padding: 0 20px 20px;
-  }
-}
-
-.order {
-  width: 100%;
-  flex: 1;
-  padding: 1.25rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-
-  &__summary {
-    height: 100%;
-  }
-
-  &__item {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__total {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    margin-top: 1.5rem;
-  }
-
-  &__btn {
-    background: $red;
-    height: 3rem;
-    margin: 1.25rem 0;
   }
 }
 

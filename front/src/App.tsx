@@ -8,85 +8,16 @@ import CrustTypePicker from './containers/CrustTypePicker';
 import PizzaPreview from './containers/PizzaPreview';
 import Divider from './components/Divider';
 import ModalContainer from './containers/Modal';
-
-const formatToppingText = (str: string) => {
-  return _.capitalize(str).replace(/-/g, ' ');
-};
+import { ModalContent } from './types';
+import { formatToppingText } from './utils';
+import { orderSizeInfo } from './data';
+import OrderSection from './containers/OrderSection';
 
 const classList = (classes: object) => {
   return Object.entries(classes)
     .filter((entry) => entry[1])
     .map((entry) => entry[0])
     .join(' ');
-};
-
-const formatPrice = (amount: number, currencyId?: string) => {
-  const options = {
-    style: 'currency',
-    currency: currencyId || 'USD',
-    minimumFractionDigits: 2
-  };
-
-  const formatter = new Intl.NumberFormat('en-US', options);
-  return formatter.format(amount / 100);
-};
-
-const PlaceOrder: React.FC = () => {
-  const {
-    order,
-    isFormValid,
-    setIsModalShow,
-    setModalContent,
-  } = React.useContext(Context);
-  const {toppings, size} = order;
-
-  const sizePrice = orderSizeInfo[size].price
-  const crustTypePrice = order.isThick ? 400 : 200
-  const toppingsPrice = toppings.length > 3
-    ? (toppings.length - 3) * 50
-    : 0
-  const totalPrice = sizePrice + crustTypePrice + toppingsPrice
-
-  return (
-    <div className="order">
-      <div className="order__summary">
-        <ul className="order__list">
-          <li className="order__item">
-            <span>{formatToppingText(size)} Size</span>
-            <span>{formatPrice(sizePrice)}</span>
-          </li>
-          <li className="order__item">
-            <span>{order.isThick ? 'Thick' : 'Thin'} Crust type</span>
-            <span>{formatPrice(crustTypePrice)}</span>
-          </li>
-          <li className="order__item">
-            <span>Toppings</span>
-            <span>{formatPrice(toppingsPrice)}</span>
-          </li>
-        </ul>
-        <div className="order__total">
-          <span>Total:</span>
-          <span>{formatPrice(totalPrice)}</span>
-        </div>
-      </div>
-      <button
-        onClick={() => {
-          if (isFormValid) {
-            setModalContent({
-              header: 'Success!',
-              body: 'Your pizza will start cook soon!'
-            })
-          } else {
-            setModalContent(getRemoveToppingsModalContent(order, order.size))
-          }
-          setIsModalShow(true)
-        }}
-        className="order__btn neu-flat-red"
-      >
-        Place Order
-      </button>
-    </div>
-  );
 };
 
 export enum ToppingName {
@@ -120,26 +51,6 @@ const toppings: ToppingData[] = [
   { name: ToppingName.Pineapple, onPizza: 'pineapple.png', titleColor: 'black' },
   { name: ToppingName.Spinach, onPizza: 'spinach.png' },
 ];
-
-enum OrderSize {
-  Small = 'small',
-  Medium = 'medium',
-  Large = 'large',
-}
-
-interface OrderSizeInfo {
-  [size: string]: {
-    price: number;
-    inches: number;
-    maximumToppings: number;
-  };
-}
-
-const orderSizeInfo: OrderSizeInfo = {
-  [OrderSize.Small]: { price: 800, inches: 8, maximumToppings: 5 },
-  [OrderSize.Medium]: { price: 1_000, inches: 12, maximumToppings: 7 },
-  [OrderSize.Large]: { price: 1_200, inches: 16, maximumToppings: 9 }
-};
 
 const ChooseToppings: React.FC = () => {
   const {
@@ -270,11 +181,6 @@ export type Order = {
   toppings: ToppingData[];
 };
 
-interface ModalContent {
-  body: string;
-  header: string;
-}
-
 interface ContextProps {
   order: Order;
   setOrder: (order: any) => void;
@@ -334,7 +240,7 @@ const App: React.FC = () => {
         <div className="PizzaDisplay">
           <PizzaPreview />
           <Divider text="Place Order" />
-          <PlaceOrder />
+          <OrderSection />
         </div>
         <PizzaForm />
         <ModalContainer />

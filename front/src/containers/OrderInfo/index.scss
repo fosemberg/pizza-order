@@ -1,0 +1,17 @@
+$red: #f56565;
+
+.OrderInfo {
+  height: 100%;
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-top: 1.5rem;
+  }
+}

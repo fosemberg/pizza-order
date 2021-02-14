@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-import './index.scss'
 import { Context } from '../../App';
 
 const ModalContainer: React.FC = () => {
