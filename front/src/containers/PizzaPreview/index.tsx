@@ -1,5 +1,7 @@
 import React from 'react';
-import { Context } from '../../App';
+
+import { Context } from '../../data';
+
 import './index.scss'
 
 interface PizzaPreviewProps {

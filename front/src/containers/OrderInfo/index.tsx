@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Context } from '../../App';
+import { Context } from '../../data';
 import { orderSizeInfo } from '../../data';
 import { formatPrice, formatToppingText } from '../../utils';
 

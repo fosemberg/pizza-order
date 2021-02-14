@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import { Context, Order } from '../../App';
 import { PizzaTogglePizzaShape } from '../../components/PizzaToggle';
 import CardToggle from '../../components/CardToggle';
+import { Context } from '../../data';
+import { Order } from '../../types';
 
 const CrustTypePicker: React.FC = () => {
   const { order, setOrder } = useContext(Context);

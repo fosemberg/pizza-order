@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { Context } from '../../App';
+import { Context } from '../../data';
 
 import './index.scss'
 import { getRemoveToppingsModalContent } from '../../utils';
-import { Button } from 'react-bootstrap';
 
 const OrderButton: React.FC = () => {
   const {

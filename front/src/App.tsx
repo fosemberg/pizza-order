@@ -8,49 +8,11 @@ import CrustTypePicker from './containers/CrustTypePicker';
 import PizzaPreview from './containers/PizzaPreview';
 import Divider from './components/Divider';
 import ModalContainer from './containers/Modal';
-import { ModalContent } from './types';
-import { formatToppingText } from './utils';
-import { orderSizeInfo } from './data';
+import { Order, ToppingData } from './types';
+import { classList, formatToppingText, getRemoveToppingsModalContent } from './utils';
+import { Context, orderSizeInfo, toppings } from './data';
 import OrderSection from './containers/OrderSection';
 
-const classList = (classes: object) => {
-  return Object.entries(classes)
-    .filter((entry) => entry[1])
-    .map((entry) => entry[0])
-    .join(' ');
-};
-
-export enum ToppingName {
-  Pepperoni = 'pepperoni',
-  Mushrooms = 'mushrooms',
-  Onion = 'onion',
-  Sausage = 'sausage',
-  Bacon = 'bacon',
-  ExtraCheese = 'extra-cheese',
-  BlackOlives = 'black-olives',
-  GreenPeppers = 'green-peppers',
-  Pineapple = 'pineapple',
-  Spinach = 'spinach',
-}
-
-interface ToppingData {
-  name: ToppingName;
-  onPizza?: string;
-  titleColor?: string;
-}
-
-const toppings: ToppingData[] = [
-  { name: ToppingName.Pepperoni, onPizza: 'pepperoni.png'},
-  { name: ToppingName.Mushrooms, onPizza: 'mushrooms.png', titleColor: 'black' },
-  { name: ToppingName.Onion, onPizza: 'onions.png', titleColor: 'black' },
-  { name: ToppingName.Sausage, onPizza: 'sausage.png' },
-  { name: ToppingName.Bacon, onPizza: 'bacon.png', titleColor: 'black' },
-  { name: ToppingName.ExtraCheese, onPizza: 'extra-cheese.png', titleColor: 'black' },
-  { name: ToppingName.BlackOlives, onPizza: 'black-olives.png' },
-  { name: ToppingName.GreenPeppers, onPizza: 'green-peppers.png' },
-  { name: ToppingName.Pineapple, onPizza: 'pineapple.png', titleColor: 'black' },
-  { name: ToppingName.Spinach, onPizza: 'spinach.png' },
-];
 
 const ChooseToppings: React.FC = () => {
   const {
@@ -113,14 +75,6 @@ const ChooseToppings: React.FC = () => {
   );
 };
 
-const getRemoveToppingsModalContent = (order: Order, size: string): ModalContent => {
-  const { maximumToppings } = orderSizeInfo[size]
-  return ({
-    header: 'Topping Limit',
-    body: `Please, remove ${order.toppings.length - maximumToppings} toppings. The maximum of toppings for ${order.size} size: ${maximumToppings}, but your current topping: ${order.toppings.length}`,
-  })
-}
-
 const ChooseSize: React.FC = () => {
   const {
     order,
@@ -174,41 +128,6 @@ const PizzaForm: React.FC = () => (
     </div>
   </div>
 );
-
-export type Order = {
-  size: string;
-  isThick: boolean;
-  toppings: ToppingData[];
-};
-
-interface ContextProps {
-  order: Order;
-  setOrder: (order: any) => void;
-  isFormValid: boolean;
-  setIsFormValid: (bool: boolean) => void;
-  modalContent: ModalContent;
-  setModalContent: (modalContent: ModalContent) => void;
-  isModalShow: boolean;
-  setIsModalShow: (isModalShow: boolean) => void;
-}
-
-export const Context = React.createContext<ContextProps>({
-  order: {
-    size: '',
-    isThick: false,
-    toppings: [],
-  },
-  setOrder: () => {},
-  isFormValid: true,
-  setIsFormValid: () => {},
-  modalContent: {
-    header: '',
-    body: '',
-  },
-  setModalContent: () => {},
-  isModalShow: false,
-  setIsModalShow: () => {},
-});
 
 const App: React.FC = () => {
   const [order, setOrder] = React.useState<Order>({
