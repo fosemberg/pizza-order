@@ -1,0 +1,12 @@
+.PizzaPreview {
+  min-width: 500px;
+  flex-basis: 500px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__part {
+    position: absolute;
+  }
+}

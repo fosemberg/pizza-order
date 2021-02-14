@@ -5,6 +5,8 @@ import * as _ from 'lodash';
 import './App.scss';
 import CardToggle from './components/CardToggle';
 import CrustTypePicker from './containers/CrustTypePicker';
+import ErrorHandler from './containers/ErrorHandler';
+import PizzaPreview from './containers/PizzaPreview';
 
 const formatToppingText = (str: string) => {
   return _.capitalize(str).replace(/-/g, ' ');
@@ -33,7 +35,7 @@ const Divider: React.FC<{ text: string }> = (props) => (
 );
 
 const PlaceOrder: React.FC = () => {
-  const { order, formIsValid } = React.useContext(Context);
+  const { order, isFormValid } = React.useContext(Context);
   const {toppings, size} = order;
 
   const sizePrice = sizePrices[size].price
@@ -68,7 +70,7 @@ const PlaceOrder: React.FC = () => {
       <button
         onClick={() =>
           alert(
-            formIsValid
+            isFormValid
               ? 'Your order is being processed. Thank you!'
               : 'Some fields are incomplete.'
           )
@@ -114,7 +116,14 @@ const toppings: ToppingData[] = [
 ];
 
 const ChooseToppings: React.FC = () => {
-  const { setOrder, order } = React.useContext(Context);
+  const {
+    order,
+    setOrder,
+    setIsErrorShow,
+    setIsFormValid,
+  } = React.useContext(Context);
+
+  if (order.size === '') {}
 
   const toggleSelect = (topping: ToppingData) => () => {
     setOrder((prev: Order) => {
@@ -147,6 +156,12 @@ const ChooseToppings: React.FC = () => {
   );
 };
 
+enum OrderSize {
+  Small = 'small',
+  Medium = 'medium',
+  Large = 'large',
+}
+
 interface SizePrice {
   [size: string]: {
     price: number;
@@ -155,9 +170,9 @@ interface SizePrice {
 }
 
 const sizePrices: SizePrice = {
-  small: { price: 800, inches: 8 },
-  medium: { price: 1_000, inches: 12 },
-  large: { price: 1_200, inches: 16 }
+  [OrderSize.Small]: { price: 800, inches: 8 },
+  [OrderSize.Medium]: { price: 1_000, inches: 12 },
+  [OrderSize.Large]: { price: 1_200, inches: 16 }
 };
 
 const ChooseSize: React.FC = () => {
@@ -197,38 +212,9 @@ const PizzaForm: React.FC = () => (
       <CrustTypePicker/>
       <Divider text="Toppings" />
       <ChooseToppings />
-      <Divider text="Place Order" />
-      <PlaceOrder />
     </div>
   </div>
 );
-
-const PizzaViewer: React.FC = () => {
-  const { order } = React.useContext(Context);
-
-  return (
-    <div className="PizzaViewer">
-      <img
-        className="pizza__part"
-        src={`./pizza-base.png`}
-        alt=""
-      />
-      <img
-        className="pizza__part"
-        src={`./pizza-sauce.png`}
-        alt=""
-      />
-      {order.toppings.map(({onPizza}, i) => (
-        <img
-          key={onPizza}
-          className="pizza__part"
-          src={`./toppings/on-pizza/${onPizza}`}
-          alt=""
-        />
-      ))}
-    </div>
-  );
-};
 
 export type Order = {
   size: string;
@@ -238,9 +224,11 @@ export type Order = {
 
 interface ContextProps {
   order: Order;
-  formIsValid: boolean;
   setOrder: (order: any) => void;
-  setFormIsValid: (bool: boolean) => void;
+  isFormValid: boolean;
+  setIsFormValid: (bool: boolean) => void;
+  isErrorShow: boolean
+  setIsErrorShow: (bool: boolean) => void;
 }
 
 export const Context = React.createContext<ContextProps>({
@@ -249,11 +237,11 @@ export const Context = React.createContext<ContextProps>({
     isThick: false,
     toppings: [],
   },
-  formIsValid: true,
-  setOrder: () => {
-  },
-  setFormIsValid: () => {
-  }
+  setOrder: () => {},
+  isFormValid: true,
+  setIsFormValid: () => {},
+  isErrorShow: false,
+  setIsErrorShow: () => {}
 });
 
 const App: React.FC = () => {
@@ -262,20 +250,28 @@ const App: React.FC = () => {
     isThick: false,
     toppings: [],
   });
-  const [formIsValid, setFormIsValid] = React.useState(true);
+  const [isFormValid, setIsFormValid] = React.useState(true);
+  const [isErrorShow, setIsErrorShow] = React.useState(false);
 
   return (
     <Context.Provider
       value={{
         order,
-        formIsValid,
-        setFormIsValid,
-        setOrder
+        setOrder,
+        isFormValid,
+        setIsFormValid,
+        isErrorShow,
+        setIsErrorShow,
       }}
     >
       <div className="app">
-        <PizzaViewer />
+        <div className="PizzaDisplay">
+          <PizzaPreview />
+          <Divider text="Place Order" />
+          <PlaceOrder />
+        </div>
         <PizzaForm />
+        <ErrorHandler/>
       </div>
     </Context.Provider>
   );
