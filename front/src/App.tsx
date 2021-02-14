@@ -32,7 +32,12 @@ const formatPrice = (amount: number, currencyId?: string) => {
 };
 
 const PlaceOrder: React.FC = () => {
-  const { order, isFormValid } = React.useContext(Context);
+  const {
+    order,
+    isFormValid,
+    setIsErrorShow,
+    setErrorContent,
+  } = React.useContext(Context);
   const {toppings, size} = order;
 
   const sizePrice = orderSizeInfo[size].price
@@ -65,13 +70,15 @@ const PlaceOrder: React.FC = () => {
         </div>
       </div>
       <button
-        onClick={() =>
-          alert(
-            isFormValid
-              ? 'Your order is being processed. Thank you!'
-              : 'Some fields are incomplete.'
-          )
-        }
+        onClick={() => {
+          if (isFormValid) {
+            setErrorContent({
+              header: 'Success!',
+              body: 'Your pizza will start cook soone!'
+            })
+          }
+          setIsErrorShow(true)
+        }}
         className="order__btn neu-flat-red"
       >
         Place Order
@@ -147,8 +154,6 @@ const ChooseToppings: React.FC = () => {
       ? order.toppings.filter((t) => t.name !== topping.name)
       : [...order.toppings, topping];
 
-    console.log('front/src/App.tsx:toppings', newToppings);
-
     const { maximumToppings } = orderSizeInfo[order.size]
 
     if (
@@ -159,14 +164,12 @@ const ChooseToppings: React.FC = () => {
         header: 'Topping Limit',
         body: 'The maximum of toppings for current Size: ' + maximumToppings,
       });
-      setIsFormValid(false);
       setIsErrorShow(true);
     } else {
       setErrorContent({
         header: '',
         body: '',
       });
-      setIsFormValid(true);
       setIsErrorShow(false)
       setOrder((prev: Order) => {
         return { ...prev, toppings: newToppings };
