@@ -35,7 +35,7 @@ const PlaceOrder: React.FC = () => {
   const { order, isFormValid } = React.useContext(Context);
   const {toppings, size} = order;
 
-  const sizePrice = sizePrices[size].price
+  const sizePrice = orderSizeInfo[size].price
   const crustTypePrice = order.isThick ? 400 : 200
   const toppingsPrice = toppings.length > 3
     ? (toppings.length - 3) * 50
@@ -112,24 +112,58 @@ const toppings: ToppingData[] = [
   { name: ToppingName.Spinach, onPizza: 'spinach.png' },
 ];
 
+enum OrderSize {
+  Small = 'small',
+  Medium = 'medium',
+  Large = 'large',
+}
+
+interface OrderSizeInfo {
+  [size: string]: {
+    price: number;
+    inches: number;
+    maximumToppings: number;
+  };
+}
+
+const orderSizeInfo: OrderSizeInfo = {
+  [OrderSize.Small]: { price: 800, inches: 8, maximumToppings: 5 },
+  [OrderSize.Medium]: { price: 1_000, inches: 12, maximumToppings: 7 },
+  [OrderSize.Large]: { price: 1_200, inches: 16, maximumToppings: 9 }
+};
+
 const ChooseToppings: React.FC = () => {
   const {
     order,
     setOrder,
-    setIsErrorShow,
+    setErrorContent,
     setIsFormValid,
   } = React.useContext(Context);
 
-  if (order.size === '') {}
+  const toggleSelect = (order: Order, topping: ToppingData) => () => {
+    const exists = _.find(order.toppings, { name: topping.name });
+    const newToppings = exists
+      ? order.toppings.filter((t) => t.name !== topping.name)
+      : [...order.toppings, topping];
 
-  const toggleSelect = (topping: ToppingData) => () => {
-    setOrder((prev: Order) => {
-      const exists = _.find(prev.toppings, { name: topping.name });
-      const toppings = exists
-        ? prev.toppings.filter((t) => t.name !== topping.name)
-        : [...prev.toppings, topping];
-      return { ...prev, toppings };
-    });
+    console.log('front/src/App.tsx:toppings', newToppings);
+
+    const { maximumToppings } = orderSizeInfo[order.size]
+
+    if (
+      newToppings.length > maximumToppings &&
+      newToppings.length > order.toppings.length
+    ) {
+      setErrorContent({
+        header: 'Topping Limit',
+        body: 'The maximum of toppings for current Size: ' + maximumToppings,
+      });
+      setIsFormValid(true);
+    } else {
+      setOrder((prev: Order) => {
+        return { ...prev, toppings: newToppings };
+      });
+    }
   };
 
   return (
@@ -138,7 +172,7 @@ const ChooseToppings: React.FC = () => {
         {toppings.map((topping) => (
           <CardToggle
             key={topping.name}
-            onClick={toggleSelect(topping)}
+            onClick={toggleSelect(order, topping)}
             checked={!!_.find(order.toppings, {
               name: topping.name
             })}
@@ -153,25 +187,6 @@ const ChooseToppings: React.FC = () => {
   );
 };
 
-enum OrderSize {
-  Small = 'small',
-  Medium = 'medium',
-  Large = 'large',
-}
-
-interface SizePrice {
-  [size: string]: {
-    price: number;
-    inches: number;
-  };
-}
-
-const sizePrices: SizePrice = {
-  [OrderSize.Small]: { price: 800, inches: 8 },
-  [OrderSize.Medium]: { price: 1_000, inches: 12 },
-  [OrderSize.Large]: { price: 1_200, inches: 16 }
-};
-
 const ChooseSize: React.FC = () => {
   const { order, setOrder } = React.useContext(Context);
 
@@ -182,7 +197,7 @@ const ChooseSize: React.FC = () => {
   return (
     <div className="choose-size">
       <div className="choose-size__dishes">
-        {Object.entries(sizePrices).map(([size, details], i) => (
+        {Object.entries(orderSizeInfo).map(([size, details], i) => (
           <div
             key={i}
             onClick={handleSetOrder(size)}
@@ -219,13 +234,18 @@ export type Order = {
   toppings: ToppingData[];
 };
 
+interface ErrorContent {
+  body: string;
+  header: string;
+}
+
 interface ContextProps {
   order: Order;
   setOrder: (order: any) => void;
   isFormValid: boolean;
   setIsFormValid: (bool: boolean) => void;
-  isErrorShow: boolean
-  setIsErrorShow: (bool: boolean) => void;
+  errorContent: ErrorContent;
+  setErrorContent: (errorContent: ErrorContent) => void;
 }
 
 export const Context = React.createContext<ContextProps>({
@@ -237,8 +257,11 @@ export const Context = React.createContext<ContextProps>({
   setOrder: () => {},
   isFormValid: true,
   setIsFormValid: () => {},
-  isErrorShow: false,
-  setIsErrorShow: () => {}
+  errorContent: {
+    header: '',
+    body: '',
+  },
+  setErrorContent: () => {}
 });
 
 const App: React.FC = () => {
@@ -248,7 +271,10 @@ const App: React.FC = () => {
     toppings: [],
   });
   const [isFormValid, setIsFormValid] = React.useState(true);
-  const [isErrorShow, setIsErrorShow] = React.useState(false);
+  const [errorContent, setErrorContent] = React.useState({
+    header: '',
+    body: '',
+  });
 
   return (
     <Context.Provider
@@ -257,8 +283,8 @@ const App: React.FC = () => {
         setOrder,
         isFormValid,
         setIsFormValid,
-        isErrorShow,
-        setIsErrorShow,
+        errorContent,
+        setErrorContent,
       }}
     >
       <div className="app">

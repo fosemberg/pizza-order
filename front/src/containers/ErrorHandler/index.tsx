@@ -6,24 +6,26 @@ import './index.scss'
 import { Context } from '../../App';
 
 const ErrorHandler: React.FC = () => {
-  const { isFormValid, setIsFormValid } = useContext(Context);
-  const [show, setShow] = useState(true);
+  const {
+    isFormValid,
+    errorContent,
+    setErrorContent,
+  } = useContext(Context);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setErrorContent({
+    header: '',
+    body: '',
+  });
 
   return <div className="ErrorHandler">
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={!!(errorContent.header || errorContent.body)} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>{errorContent.header}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+      <Modal.Body>{errorContent.body}</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Close
-        </Button>
-        <Button variant="primary" onClick={handleClose}>
-          Save Changes
         </Button>
       </Modal.Footer>
     </Modal>
