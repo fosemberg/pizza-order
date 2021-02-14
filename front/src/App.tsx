@@ -16,7 +16,7 @@ const Pepper = 'https://svgshare.com/i/Ppn.svg';
 const Pepperoni = 'https://svgshare.com/i/PqD.svg';
 
 const formatToppingText = (str: string) => {
-  return str[0].toUpperCase() + str.slice(1).replace(/-/g, ' ');
+  return _.capitalize(str).replace(/-/g, ' ');
 };
 
 const classList = (classes: object) => {
@@ -154,35 +154,37 @@ const PlaceOrder: React.FC = () => {
   );
 };
 
-type Topping =
-  | 'pepperoni'
-  | 'mushroom'
-  | 'onion'
-  | 'sausage'
-  | 'bacon'
-  | 'extra-cheese'
-  | 'black-olives'
-  | 'green-peppers'
-  | 'pineapple'
-  | 'spinach';
+export enum ToppingName {
+  Pepperoni = 'pepperoni',
+  Mushrooms = 'mushrooms',
+  Onion = 'onion',
+  Sausage = 'sausage',
+  Bacon = 'bacon',
+  ExtraCheese = 'extra-cheese',
+  BlackOlives = 'black-olives',
+  GreenPeppers = 'green-peppers',
+  Pineapple = 'pineapple',
+  Spinach = 'spinach',
+}
 
 interface ToppingData {
-  name: Topping;
+  name: ToppingName;
   icon: string;
   onPizza?: string;
+  titleColor?: string;
 }
 
 const toppings: ToppingData[] = [
-  { name: 'pepperoni', icon: Pepperoni, onPizza: 'pepperoni.png' },
-  { name: 'mushroom', icon: Mushroom, onPizza: 'mushrooms.png' },
-  { name: 'onion', icon: Onion, onPizza: 'onions.png' },
-  { name: 'sausage', icon: Onion, onPizza: 'sausage.png' },
-  { name: 'bacon', icon: Bacon, onPizza: 'bacon.png' },
-  { name: 'extra-cheese', icon: Mozzarella, onPizza: 'extra-cheese.png' },
-  { name: 'black-olives', icon: Olive, onPizza: 'black-olives.png' },
-  { name: 'green-peppers', icon: Pepper, onPizza: 'green-peppers.png' },
-  { name: 'pineapple', icon: Pepper, onPizza: 'pineapple.png' },
-  { name: 'spinach', icon: Pepper, onPizza: 'spinach.png' },
+  { name: ToppingName.Pepperoni, icon: Pepperoni, onPizza: 'pepperoni.png', titleColor: 'white', },
+  { name: ToppingName.Mushrooms, icon: Mushroom, onPizza: 'mushrooms.png' },
+  { name: ToppingName.Onion, icon: Onion, onPizza: 'onions.png' },
+  { name: ToppingName.Sausage, icon: Onion, onPizza: 'sausage.png' },
+  { name: ToppingName.Bacon, icon: Bacon, onPizza: 'bacon.png' },
+  { name: ToppingName.ExtraCheese, icon: Mozzarella, onPizza: 'extra-cheese.png' },
+  { name: ToppingName.BlackOlives, icon: Olive, onPizza: 'black-olives.png' },
+  { name: ToppingName.GreenPeppers, icon: Pepper, onPizza: 'green-peppers.png' },
+  { name: ToppingName.Pineapple, icon: Pepper, onPizza: 'pineapple.png' },
+  { name: ToppingName.Spinach, icon: Pepper, onPizza: 'spinach.png' },
 ];
 
 const ChooseToppings: React.FC = () => {
@@ -203,7 +205,12 @@ const ChooseToppings: React.FC = () => {
     <div className="toppings">
       <div className="toppings__list">
         {toppings.map((topping) => (
-          <CardToggle imgSrc={`./toggles/${topping.onPizza}`} />
+          <CardToggle
+            imgSrc={`./toggles/${topping.onPizza}`}
+            titleText={formatToppingText(topping.name)}
+            titleColor={topping.titleColor}
+            toppingName={topping.name}
+          />
         ))}
         {toppings.map((t) => (
           <div

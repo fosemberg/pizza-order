@@ -35,7 +35,7 @@ $pepper: #4cad7b;
     font-size:24px;
   }
 
-  .PizzaToggle__toppings {
+  &__topping {
     transform:scale(0) rotate(0deg);
     transition:0.15s ease-in-out;
     @for $i from 1 through 5{
@@ -67,19 +67,43 @@ $pepper: #4cad7b;
     }
   }
 
-  &_type {
+  &_toppingShape {
     &_round {
-      .PizzaToggle__toppings {
+      .PizzaToggle__topping {
         position:absolute;
         width:10px;
         height:10px;
         border-radius:100%;
         background:$roni;
       }
+
+      &.PizzaToggle_toppingName_onion {
+        .PizzaToggle__topping {
+          background: white;
+        }
+      }
+
+      &.PizzaToggle_toppingName_extraCheese {
+        .PizzaToggle__topping {
+          background: yellow;
+        }
+      }
+
+      &.PizzaToggle_toppingName_blackOlives {
+        .PizzaToggle__topping {
+          background: black;
+        }
+      }
+
+      &.PizzaToggle_toppingName_spinach {
+        .PizzaToggle__topping {
+          background: green;
+        }
+      }
     }
 
     &_oval {
-      .PizzaToggle__toppings {
+      .PizzaToggle__topping {
         position:absolute;
         width:10px;
         height:5px;
@@ -100,7 +124,7 @@ $pepper: #4cad7b;
     }
 
     &_square {
-      .PizzaToggle__toppings {
+      .PizzaToggle__topping {
         position:absolute;
         width:5px;
         height:5px;
@@ -115,19 +139,39 @@ $pepper: #4cad7b;
           background:darken($pineapple, 20%);
           bottom:0;
           left:-2.5px;
+        }
+      }
 
+      &.PizzaToggle_toppingName_bacon {
+        .PizzaToggle__topping {
+          background: red;
+
+          &:before{
+            background: white;
+          }
+        }
+      }
+
+      &.PizzaToggle_toppingName_extraCheese {
+        .PizzaToggle__topping {
+          background: yellow;
+
+          &:before{
+            background: yellow;
+          }
         }
       }
     }
 
     &_gull {
-      .PizzaToggle__toppings {
-        position:absolute;
-        width:10px;
-        height:10px;
+      .PizzaToggle__topping {
+        position: absolute;
+        width: 10px;
+        height: 10px;
         background:$cheese;
         border-radius:100%;
         box-shadow:inset 3px 0 0 $pepper;
+
         &:before{
           content:'';
           position:absolute;
@@ -139,8 +183,20 @@ $pepper: #4cad7b;
           box-shadow:inset 3px 0 0 $pepper;
         }
       }
-    }
 
+      &.PizzaToggle_toppingName_mushrooms {
+        .PizzaToggle__topping {
+          box-shadow:inset 3px 0 0 white;
+
+          &:before{
+            box-shadow:inset 3px 0 0 white;
+          }
+        }
+      }
+    }
+  }
+
+  &_pizzaShape {
     &_big {
       input {
         &:checked ~.PizzaToggle__pizza[class]{
@@ -285,7 +341,7 @@ $pepper: #4cad7b;
     }
     &:checked ~ .PizzaToggle__pizza{
       animation:pizzaflip 0.75s linear 1 forwards;
-      .PizzaToggle__toppings{
+      .PizzaToggle__topping{
         @for $i from 1 through 5{
           &:nth-of-type(#{$i}){
             transition-delay:#{$i/40 + 0.75}s;
