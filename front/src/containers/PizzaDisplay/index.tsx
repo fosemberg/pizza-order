@@ -9,7 +9,7 @@ import './index.scss'
 const PizzaDisplay: React.FC = () => (
   <div className="PizzaDisplay">
     <PizzaPreview />
-    <Divider text="Place Order" />
+    <Divider text="Information about order" />
     <OrderSection />
   </div>
 )

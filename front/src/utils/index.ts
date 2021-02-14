@@ -27,7 +27,7 @@ export const classList = (classes: object) => {
 export const getRemoveToppingsModalContent = (order: Order, size: string): ModalContent => {
   const { maximumToppings } = orderSizeInfo[size]
   return ({
-    header: 'Topping Limit',
-    body: `Please, remove ${order.toppings.length - maximumToppings} toppings. The maximum of toppings for ${order.size} size: ${maximumToppings}, but your current topping: ${order.toppings.length}`,
+    header: 'Toppings Limit',
+    body: `Please, remove ${order.toppings.length - maximumToppings} toppings. The maximum of toppings for the ${order.size} size is ${maximumToppings}, but the current number is ${order.toppings.length}.`,
   })
 }

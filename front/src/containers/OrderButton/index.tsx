@@ -27,7 +27,7 @@ const OrderButton: React.FC = () => {
       }}
       className="OrderButton"
     >
-      Place Order
+      Make an order
     </button>
   );
 };

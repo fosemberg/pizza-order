@@ -30,8 +30,8 @@ const ToppingsPicker: React.FC = () => {
       newToppings.length > order.toppings.length
     ) {
       setModalContent({
-        header: 'Topping Limit',
-        body: `The maximum of toppings for ${order.size} size: ${maximumToppings}`,
+        header: 'Toppings Limit',
+        body: `The maximum of toppings for the ${order.size} size is ${maximumToppings}.`,
       });
       setIsModalShow(true);
     } else {
