@@ -5,9 +5,9 @@ import * as _ from 'lodash';
 import './App.scss';
 import CardToggle from './components/CardToggle';
 import CrustTypePicker from './containers/CrustTypePicker';
-import ErrorHandler from './containers/ErrorHandler';
 import PizzaPreview from './containers/PizzaPreview';
 import Divider from './components/Divider';
+import ModalContainer from './containers/Modal';
 
 const formatToppingText = (str: string) => {
   return _.capitalize(str).replace(/-/g, ' ');
@@ -35,8 +35,8 @@ const PlaceOrder: React.FC = () => {
   const {
     order,
     isFormValid,
-    setIsErrorShow,
-    setErrorContent,
+    setIsModalShow,
+    setModalContent,
   } = React.useContext(Context);
   const {toppings, size} = order;
 
@@ -72,14 +72,14 @@ const PlaceOrder: React.FC = () => {
       <button
         onClick={() => {
           if (isFormValid) {
-            setErrorContent({
+            setModalContent({
               header: 'Success!',
               body: 'Your pizza will start cook soon!'
             })
           } else {
-            setErrorContent(getRemoveToppingsModalContent(order, order.size))
+            setModalContent(getRemoveToppingsModalContent(order, order.size))
           }
-          setIsErrorShow(true)
+          setIsModalShow(true)
         }}
         className="order__btn neu-flat-red"
       >
@@ -145,9 +145,9 @@ const ChooseToppings: React.FC = () => {
   const {
     order,
     setOrder,
-    setErrorContent,
+    setModalContent,
     setIsFormValid,
-    setIsErrorShow,
+    setIsModalShow,
   } = React.useContext(Context);
 
   const toggleSelect = (order: Order, topping: ToppingData) => () => {
@@ -162,14 +162,14 @@ const ChooseToppings: React.FC = () => {
       newToppings.length > maximumToppings &&
       newToppings.length > order.toppings.length
     ) {
-      setErrorContent({
+      setModalContent({
         header: 'Topping Limit',
         body: `The maximum of toppings for ${order.size} size: ${maximumToppings}`,
       });
-      setIsErrorShow(true);
+      setIsModalShow(true);
     } else {
       if (newToppings.length <= maximumToppings) {
-        setErrorContent({
+        setModalContent({
           header: '',
           body: '',
         });
@@ -202,7 +202,7 @@ const ChooseToppings: React.FC = () => {
   );
 };
 
-const getRemoveToppingsModalContent = (order: Order, size: string): ErrorContent => {
+const getRemoveToppingsModalContent = (order: Order, size: string): ModalContent => {
   const { maximumToppings } = orderSizeInfo[size]
   return ({
     header: 'Topping Limit',
@@ -214,17 +214,17 @@ const ChooseSize: React.FC = () => {
   const {
     order,
     setOrder,
-    setErrorContent,
+    setModalContent,
     setIsFormValid,
-    setIsErrorShow,
+    setIsModalShow,
   } = React.useContext(Context);
 
   const handleSetOrder = (size: string) => () => {
     const { maximumToppings } = orderSizeInfo[size]
     if (order.toppings.length > maximumToppings) {
-      setErrorContent(getRemoveToppingsModalContent(order, size));
+      setModalContent(getRemoveToppingsModalContent(order, size));
       setIsFormValid(false);
-      setIsErrorShow(true);
+      setIsModalShow(true);
     }
 
     setOrder((prev: Order) => ({ ...prev, size }));
@@ -270,7 +270,7 @@ export type Order = {
   toppings: ToppingData[];
 };
 
-interface ErrorContent {
+interface ModalContent {
   body: string;
   header: string;
 }
@@ -280,10 +280,10 @@ interface ContextProps {
   setOrder: (order: any) => void;
   isFormValid: boolean;
   setIsFormValid: (bool: boolean) => void;
-  errorContent: ErrorContent;
-  setErrorContent: (errorContent: ErrorContent) => void;
-  isErrorShow: boolean;
-  setIsErrorShow: (isErrorShow: boolean) => void;
+  modalContent: ModalContent;
+  setModalContent: (modalContent: ModalContent) => void;
+  isModalShow: boolean;
+  setIsModalShow: (isModalShow: boolean) => void;
 }
 
 export const Context = React.createContext<ContextProps>({
@@ -295,13 +295,13 @@ export const Context = React.createContext<ContextProps>({
   setOrder: () => {},
   isFormValid: true,
   setIsFormValid: () => {},
-  errorContent: {
+  modalContent: {
     header: '',
     body: '',
   },
-  setErrorContent: () => {},
-  isErrorShow: false,
-  setIsErrorShow: () => {},
+  setModalContent: () => {},
+  isModalShow: false,
+  setIsModalShow: () => {},
 });
 
 const App: React.FC = () => {
@@ -311,11 +311,11 @@ const App: React.FC = () => {
     toppings: [],
   });
   const [isFormValid, setIsFormValid] = React.useState(true);
-  const [errorContent, setErrorContent] = React.useState({
+  const [modalContent, setModalContent] = React.useState({
     header: '',
     body: '',
   });
-  const [isErrorShow, setIsErrorShow] = React.useState(false);
+  const [isModalShow, setIsModalShow] = React.useState(false);
 
   return (
     <Context.Provider
@@ -324,10 +324,10 @@ const App: React.FC = () => {
         setOrder,
         isFormValid,
         setIsFormValid,
-        errorContent,
-        setErrorContent,
-        isErrorShow,
-        setIsErrorShow,
+        modalContent,
+        setModalContent,
+        isModalShow,
+        setIsModalShow,
       }}
     >
       <div className="app">
@@ -337,7 +337,7 @@ const App: React.FC = () => {
           <PlaceOrder />
         </div>
         <PizzaForm />
-        <ErrorHandler/>
+        <ModalContainer />
       </div>
     </Context.Provider>
   );
