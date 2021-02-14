@@ -4,7 +4,6 @@ $crust: #FFB10B;
 
 .SizePicker {
   width: 100%;
-  padding: 0 2.5rem;
 
   &__dishes {
     width: 100%;
@@ -13,7 +12,7 @@ $crust: #FFB10B;
     align-items: center;
     max-width: 40rem;
     overflow: hidden;
-    padding: 0 2.5rem;
+    padding: 0 20px;
     margin: 0 auto;
   }
 

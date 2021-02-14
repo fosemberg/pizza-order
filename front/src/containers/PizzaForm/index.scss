@@ -2,6 +2,10 @@
   background: rgb(252, 252, 252);
   overflow-y: scroll;
 
+  @media (max-width: 850px) {
+    overflow: unset;
+  }
+
   &__inner {
     display: flex;
     flex-direction: column;
