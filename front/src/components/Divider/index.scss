@@ -1,0 +1,26 @@
+$red: #f56565;
+
+.Divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  &::before {
+    background: $red;
+    content: "";
+    flex: 1;
+    height: 0.1rem;
+    margin: 0 2rem;
+    width: 100%;
+  }
+
+  &::after {
+    background: $red;
+    content: "";
+    flex: 1;
+    height: 0.1rem;
+    margin: 0 2rem;
+    width: 100%;
+  }
+}

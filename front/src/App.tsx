@@ -7,6 +7,7 @@ import CardToggle from './components/CardToggle';
 import CrustTypePicker from './containers/CrustTypePicker';
 import ErrorHandler from './containers/ErrorHandler';
 import PizzaPreview from './containers/PizzaPreview';
+import Divider from './components/Divider';
 
 const formatToppingText = (str: string) => {
   return _.capitalize(str).replace(/-/g, ' ');
@@ -29,10 +30,6 @@ const formatPrice = (amount: number, currencyId?: string) => {
   const formatter = new Intl.NumberFormat('en-US', options);
   return formatter.format(amount / 100);
 };
-
-const Divider: React.FC<{ text: string }> = (props) => (
-  <div className="divider">{props.text}</div>
-);
 
 const PlaceOrder: React.FC = () => {
   const { order, isFormValid } = React.useContext(Context);
