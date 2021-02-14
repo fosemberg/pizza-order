@@ -208,23 +208,24 @@ const PizzaViewer: React.FC = () => {
 
   return (
     <div className="PizzaViewer">
-          <img
-            className="pizza__part"
-            src={`./pizza-base.png`}
-            alt=""
-          />
-          <img
-            className="pizza__part"
-            src={`./pizza-sauce.png`}
-            alt=""
-          />
-          {order.toppings.map(({onPizza}, i) => (
-            <img
-              className="pizza__part"
-              src={`./toppings/on-pizza/${onPizza}`}
-              alt=""
-            />
-          ))}
+      <img
+        className="pizza__part"
+        src={`./pizza-base.png`}
+        alt=""
+      />
+      <img
+        className="pizza__part"
+        src={`./pizza-sauce.png`}
+        alt=""
+      />
+      {order.toppings.map(({onPizza}, i) => (
+        <img
+          key={onPizza}
+          className="pizza__part"
+          src={`./toppings/on-pizza/${onPizza}`}
+          alt=""
+        />
+      ))}
     </div>
   );
 };

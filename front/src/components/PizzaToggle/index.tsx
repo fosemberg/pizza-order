@@ -2,8 +2,6 @@ import { camelCase } from 'lodash';
 import React from 'react';
 import './index.scss';
 
-const toppingNameToCssClass = (toppingName: ToppingName) => camelCase(toppingName)
-
 enum ToppingName {
   Pepperoni = 'pepperoni',
   Mushrooms = 'mushrooms',
@@ -47,6 +45,7 @@ export enum PizzaTogglePizzaShape {
 interface PizzaToggleProps {
   className?: string;
   checked?: boolean;
+  onChange?: (e: any) => void;
   toppingName?: ToppingName;
   toppingShape?: PizzaToggleToppingShape;
   pizzaShape?: PizzaTogglePizzaShape;
@@ -58,6 +57,7 @@ const PizzaToggle: React.FC<PizzaToggleProps> = (
   {
     className = '',
     checked,
+    onChange = (e) => void(0),
     toppingName,
     toppingShape,
     pizzaShape = PizzaTogglePizzaShape.Default,
@@ -88,13 +88,17 @@ const PizzaToggle: React.FC<PizzaToggleProps> = (
     </div>
     <input
       type="checkbox"
+      onChange={onChange}
       checked={checked}
     />
     <div className="PizzaToggle__shadow"/>
     <div className="PizzaToggle__pizza">
       <div className="PizzaToggle__inner">
-        { new Array(5).fill(0).map(() => (
-          <div className="PizzaToggle__topping"/>
+        { new Array(5).fill(0).map((val, index) => (
+          <div
+            key={index}
+            className="PizzaToggle__topping"
+          />
         )) }
       </div>
     </div>
