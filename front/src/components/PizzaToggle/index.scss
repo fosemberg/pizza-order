@@ -77,12 +77,6 @@ $pepper: #4cad7b;
         background:$roni;
       }
 
-      &.PizzaToggle_toppingName_onion {
-        .PizzaToggle__topping {
-          background: white;
-        }
-      }
-
       &.PizzaToggle_toppingName_extraCheese {
         .PizzaToggle__topping {
           background: yellow;
@@ -91,13 +85,58 @@ $pepper: #4cad7b;
 
       &.PizzaToggle_toppingName_blackOlives {
         .PizzaToggle__topping {
+          width: 6px;
+          height: 6px;
           background: black;
+
+          &:before {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            top: -5px;
+            left: 8px;
+            background: black;
+            border-radius: 100%;
+          }
+
+          &:after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            top: 9px;
+            left: 12px;
+            background: black;
+            border-radius: 100%;
+          }
         }
       }
 
       &.PizzaToggle_toppingName_spinach {
         .PizzaToggle__topping {
           background: green;
+        }
+      }
+    }
+
+    &_ring {
+      .PizzaToggle__topping {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        background: white;
+
+        &:after{
+          content: '';
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          top: 2px;
+          left: 2px;
+          background: $cheese;
+          border-radius: 100%;
         }
       }
     }

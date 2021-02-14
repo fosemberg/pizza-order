@@ -19,6 +19,7 @@ enum ToppingName {
 
 enum ToppingShape {
   Round = 'round',
+  Ring = 'ring',
   Oval = 'oval',
   Square = 'square',
   Gull = 'gull',
@@ -29,7 +30,7 @@ enum ToppingShape {
 const mapToppingNameToToppingShape: {[key: string]: ToppingShape} = {
   [ToppingName.Pepperoni]: ToppingShape.Round,
   [ToppingName.Mushrooms]: ToppingShape.Gull,
-  [ToppingName.Onion]: ToppingShape.Round,
+  [ToppingName.Onion]: ToppingShape.Ring,
   [ToppingName.Sausage]: ToppingShape.Oval,
   [ToppingName.Bacon]: ToppingShape.Square,
   [ToppingName.ExtraCheese]: ToppingShape.Round,
