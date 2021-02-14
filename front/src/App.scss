@@ -12,12 +12,6 @@ $dark-gray: #4a5667;
   text-overflow: ellipsis;
 }
 
-input:focus {
-  box-shadow: 0 0 0 2pt $red, inset 5px 5px 3px #d2d5d6,
-  inset -5px -5px 3px white;
-  outline: 0;
-}
-
 html,
 body {
   box-sizing: border-box;
@@ -50,37 +44,3 @@ body {
   width: 100vw;
   display: flex;
 }
-
-.PizzaDisplay {
-  display: flex;
-  flex-direction: column;
-}
-
-.order__btn {
-  font-family: "Vast Shadow", cursive;
-  outline-color: $red;
-  border: 0;
-  border-radius: 0.375rem;
-  color: white;
-  cursor: pointer;
-
-  &:active {
-    box-shadow: inset 5px 5px 10px #d05656, inset -5px -5px 10px #ff7474;
-  }
-
-  &:focus {
-    outline-color: $red;
-  }
-}
-
-.form-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.form-container {
-  background: rgb(252, 252, 252);
-  overflow-y: scroll;
-}
-

@@ -1,0 +1,11 @@
+.PizzaForm {
+  background: rgb(252, 252, 252);
+  overflow-y: scroll;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+

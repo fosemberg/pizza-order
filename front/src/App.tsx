@@ -1,29 +1,13 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import './App.scss';
-import CrustTypePicker from './containers/CrustTypePicker';
-import PizzaPreview from './containers/PizzaPreview';
-import Divider from './components/Divider';
 import ModalContainer from './containers/Modal';
 import { Order, } from './types';
 import { Context } from './data';
-import OrderSection from './containers/OrderSection';
-import ToppingsPicker from './containers/ToppingsPicker';
-import SizePicker from './containers/SizePicker';
+import PizzaForm from './containers/PizzaForm';
+import PizzaDisplay from './containers/PizzaDisplay';
 
-const PizzaForm: React.FC = () => (
-  <div className="form-container">
-    <div className="form-inner">
-      <Divider text="Size" />
-      <SizePicker />
-      <Divider text="Crust type" />
-      <CrustTypePicker/>
-      <Divider text="Toppings" />
-      <ToppingsPicker />
-    </div>
-  </div>
-);
+import './App.scss';
 
 const App: React.FC = () => {
   const [order, setOrder] = React.useState<Order>({
@@ -52,11 +36,7 @@ const App: React.FC = () => {
       }}
     >
       <div className="app">
-        <div className="PizzaDisplay">
-          <PizzaPreview />
-          <Divider text="Place Order" />
-          <OrderSection />
-        </div>
+        <PizzaDisplay />
         <PizzaForm />
         <ModalContainer />
       </div>
