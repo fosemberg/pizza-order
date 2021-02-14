@@ -22,7 +22,7 @@ const CardToggle: React.FC<CardToggleProps> = (
     checked,
     imgSrc = '',
     titleText,
-    titleColor,
+    titleColor = 'white',
     toppingName,
     toppingShape,
     pizzaShape,

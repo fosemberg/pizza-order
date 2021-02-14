@@ -175,15 +175,15 @@ interface ToppingData {
 }
 
 const toppings: ToppingData[] = [
-  { name: ToppingName.Pepperoni, icon: Pepperoni, onPizza: 'pepperoni.png', titleColor: 'white', },
-  { name: ToppingName.Mushrooms, icon: Mushroom, onPizza: 'mushrooms.png' },
-  { name: ToppingName.Onion, icon: Onion, onPizza: 'onions.png' },
+  { name: ToppingName.Pepperoni, icon: Pepperoni, onPizza: 'pepperoni.png'},
+  { name: ToppingName.Mushrooms, icon: Mushroom, onPizza: 'mushrooms.png', titleColor: 'black' },
+  { name: ToppingName.Onion, icon: Onion, onPizza: 'onions.png', titleColor: 'black' },
   { name: ToppingName.Sausage, icon: Onion, onPizza: 'sausage.png' },
-  { name: ToppingName.Bacon, icon: Bacon, onPizza: 'bacon.png' },
-  { name: ToppingName.ExtraCheese, icon: Mozzarella, onPizza: 'extra-cheese.png' },
+  { name: ToppingName.Bacon, icon: Bacon, onPizza: 'bacon.png', titleColor: 'black' },
+  { name: ToppingName.ExtraCheese, icon: Mozzarella, onPizza: 'extra-cheese.png', titleColor: 'black' },
   { name: ToppingName.BlackOlives, icon: Olive, onPizza: 'black-olives.png' },
   { name: ToppingName.GreenPeppers, icon: Pepper, onPizza: 'green-peppers.png' },
-  { name: ToppingName.Pineapple, icon: Pepper, onPizza: 'pineapple.png' },
+  { name: ToppingName.Pineapple, icon: Pepper, onPizza: 'pineapple.png', titleColor: 'black' },
   { name: ToppingName.Spinach, icon: Pepper, onPizza: 'spinach.png' },
 ];
 
