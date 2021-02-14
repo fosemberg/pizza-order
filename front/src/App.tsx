@@ -196,7 +196,6 @@ const ChooseToppings: React.FC = () => {
       const toppings = exists
         ? prev.toppings.filter((t) => t.name !== topping.name)
         : [...prev.toppings, topping];
-
       return { ...prev, toppings };
     });
   };
@@ -206,41 +205,16 @@ const ChooseToppings: React.FC = () => {
       <div className="toppings__list">
         {toppings.map((topping) => (
           <CardToggle
+            key={topping.name}
+            onClick={toggleSelect(topping)}
+            checked={!!_.find(order.toppings, {
+              name: topping.name
+            })}
             imgSrc={`./toggles/${topping.onPizza}`}
             titleText={formatToppingText(topping.name)}
             titleColor={topping.titleColor}
             toppingName={topping.name}
           />
-        ))}
-        {toppings.map((t) => (
-          <div
-            key={t.name}
-            onClick={toggleSelect(t)}
-            className={classList({
-              'neu-flat-light': !_.find(order.toppings, {
-                name: t.name
-              }),
-              'neu-pressed-light': _.find(order.toppings, {
-                name: t.name
-              }),
-              toppings__item: true
-            })}
-          >
-            <span
-              className={classList({
-                'bg-gray': !_.find(order.toppings, {
-                  name: t.name
-                }),
-                'bg-red': _.find(order.toppings, {
-                  name: t.name
-                }),
-                toppings__icon: true
-              })}
-            >
-              <img className="toppings__img" src={t.icon} alt={t.name} />
-            </span>
-            <span className="toppings__text">{formatToppingText(t.name)}</span>
-          </div>
         ))}
       </div>
     </div>

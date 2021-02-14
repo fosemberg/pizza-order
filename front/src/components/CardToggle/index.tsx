@@ -5,6 +5,8 @@ import { ToppingName } from '../../App';
 
 interface CardToggleProps {
   className?: string;
+  onClick?: (e: any) => void;
+  checked?: boolean;
   imgSrc?: string;
   titleText?: string;
   titleColor?: string;
@@ -16,6 +18,8 @@ interface CardToggleProps {
 const CardToggle: React.FC<CardToggleProps> = (
   {
     className = '',
+    onClick = () => void(0),
+    checked,
     imgSrc = '',
     titleText,
     titleColor,
@@ -24,7 +28,10 @@ const CardToggle: React.FC<CardToggleProps> = (
     pizzaShape,
   }
 ) => {
-  return <div className={`CardToggle ${className}`}>
+  return <div
+    className={`CardToggle ${className}`}
+    onClick={onClick}
+  >
     <img
       className="CardToggle__img"
       alt={titleText}
@@ -32,6 +39,7 @@ const CardToggle: React.FC<CardToggleProps> = (
     />
     <PizzaToggle
       className="CardToggle__PizzaToggle"
+      checked={checked}
       titleText={titleText}
       titleColor={titleColor}
       toppingName={toppingName}

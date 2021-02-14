@@ -46,6 +46,7 @@ export enum PizzaTogglePizzaShape {
 
 interface PizzaToggleProps {
   className?: string;
+  checked?: boolean;
   toppingName?: ToppingName;
   toppingShape?: PizzaToggleToppingShape;
   pizzaShape?: PizzaTogglePizzaShape;
@@ -56,6 +57,7 @@ interface PizzaToggleProps {
 const PizzaToggle: React.FC<PizzaToggleProps> = (
   {
     className = '',
+    checked,
     toppingName,
     toppingShape,
     pizzaShape = PizzaTogglePizzaShape.Default,
@@ -84,7 +86,10 @@ const PizzaToggle: React.FC<PizzaToggleProps> = (
     >
       {titleText}
     </div>
-    <input id="checkBox" type="checkbox"/>
+    <input
+      type="checkbox"
+      checked={checked}
+    />
     <div className="PizzaToggle__shadow"/>
     <div className="PizzaToggle__pizza">
       <div className="PizzaToggle__inner">
