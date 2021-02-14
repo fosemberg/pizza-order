@@ -17,34 +17,38 @@ enum ToppingName {
   Spinach = 'spinach',
 }
 
-enum ToppingShape {
+export enum PizzaToggleToppingShape {
   Round = 'round',
   Ring = 'ring',
   Oval = 'oval',
   Square = 'square',
   Gull = 'gull',
-  Thick = 'thick',
-  Big = 'big',
 }
 
-const mapToppingNameToToppingShape: {[key: string]: ToppingShape} = {
-  [ToppingName.Pepperoni]: ToppingShape.Round,
-  [ToppingName.Mushrooms]: ToppingShape.Gull,
-  [ToppingName.Onion]: ToppingShape.Ring,
-  [ToppingName.Sausage]: ToppingShape.Oval,
-  [ToppingName.Bacon]: ToppingShape.Square,
-  [ToppingName.ExtraCheese]: ToppingShape.Round,
-  [ToppingName.BlackOlives]: ToppingShape.Round,
-  [ToppingName.GreenPeppers]: ToppingShape.Gull,
-  [ToppingName.Pineapple]: ToppingShape.Square,
-  [ToppingName.Spinach]: ToppingShape.Round,
+const mapToppingNameToToppingShape: {[key: string]: PizzaToggleToppingShape} = {
+  [ToppingName.Pepperoni]: PizzaToggleToppingShape.Round,
+  [ToppingName.Mushrooms]: PizzaToggleToppingShape.Gull,
+  [ToppingName.Onion]: PizzaToggleToppingShape.Ring,
+  [ToppingName.Sausage]: PizzaToggleToppingShape.Oval,
+  [ToppingName.Bacon]: PizzaToggleToppingShape.Square,
+  [ToppingName.ExtraCheese]: PizzaToggleToppingShape.Round,
+  [ToppingName.BlackOlives]: PizzaToggleToppingShape.Round,
+  [ToppingName.GreenPeppers]: PizzaToggleToppingShape.Gull,
+  [ToppingName.Pineapple]: PizzaToggleToppingShape.Square,
+  [ToppingName.Spinach]: PizzaToggleToppingShape.Round,
+}
+
+export enum PizzaTogglePizzaShape {
+  Thick = 'thick',
+  Big = 'big',
+  Default = 'default',
 }
 
 interface PizzaToggleProps {
   className?: string;
-  toppingShape?: ToppingShape;
   toppingName?: ToppingName;
-  toppingColor?: string;
+  toppingShape?: PizzaToggleToppingShape;
+  pizzaShape?: PizzaTogglePizzaShape;
   titleText?: string;
   titleColor?: string;
 }
@@ -52,16 +56,24 @@ interface PizzaToggleProps {
 const PizzaToggle: React.FC<PizzaToggleProps> = (
   {
     className = '',
-    toppingName = ToppingName.Pepperoni,
-    toppingColor = 'red',
+    toppingName,
+    toppingShape,
+    pizzaShape = PizzaTogglePizzaShape.Default,
     titleText = 'pepperoni',
     titleColor = 'yellow',
   }
 ) => (
   <div className={[
     'PizzaToggle',
-    `PizzaToggle_toppingName_${camelCase(toppingName)}`,
-    `PizzaToggle_toppingShape_${mapToppingNameToToppingShape[toppingName]}`,
+    ...(toppingName
+      ? [
+        `PizzaToggle_toppingName_${camelCase(toppingName)}`,
+        `PizzaToggle_toppingShape_${mapToppingNameToToppingShape[toppingName]}`
+      ]
+      : [
+        `PizzaToggle_toppingShape_${toppingShape}`
+      ]),
+    `PizzaToggle_pizzaShape_${pizzaShape}`,
     className,
   ].join(' ')}>
     <div

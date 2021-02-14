@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import PizzaToggle from '../PizzaToggle';
+import PizzaToggle, { PizzaTogglePizzaShape, PizzaToggleToppingShape } from '../PizzaToggle';
 import { ToppingName } from '../../App';
 
 interface CardToggleProps {
@@ -9,18 +9,22 @@ interface CardToggleProps {
   titleText?: string;
   titleColor?: string;
   toppingName?: ToppingName;
+  toppingShape?: PizzaToggleToppingShape;
+  pizzaShape?: PizzaTogglePizzaShape;
 }
 
 const CardToggle: React.FC<CardToggleProps> = (
   {
     className = '',
     imgSrc = '',
-    titleText = '',
-    titleColor = '',
-    toppingName= ToppingName.Pepperoni,
+    titleText,
+    titleColor,
+    toppingName,
+    toppingShape,
+    pizzaShape,
   }
 ) => {
-  return <div className="CardToggle">
+  return <div className={`CardToggle ${className}`}>
     <img
       className="CardToggle__img"
       alt={titleText}
@@ -31,6 +35,8 @@ const CardToggle: React.FC<CardToggleProps> = (
       titleText={titleText}
       titleColor={titleColor}
       toppingName={toppingName}
+      toppingShape={toppingShape}
+      pizzaShape={pizzaShape}
     />
   </div>
 }

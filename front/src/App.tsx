@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import * as _ from 'lodash';
 
 import './App.scss';
-import PizzaToggle from './components/PizzaToggle';
+import { PizzaTogglePizzaShape } from './components/PizzaToggle';
 import CardToggle from './components/CardToggle';
 
 const Base = 'https://svgshare.com/i/PoA.svg';
@@ -294,7 +294,12 @@ const PizzaForm: React.FC = () => (
       <Divider text="Size" />
       <ChooseSize />
       <Divider text="Crust type" />
-      <CardToggle imgSrc="./toggles/thin-thick-middle-pizza-with-arrows.png" />
+      <CardToggle
+        imgSrc="./toggles/thin-thick-middle-pizza-with-arrows.png"
+        titleText="&nbsp;THIN / THICK"
+        titleColor="black"
+        pizzaShape={PizzaTogglePizzaShape.Thick}
+      />
       <Divider text="Toppings" />
       <ChooseToppings />
       <Divider text="Place Order" />
