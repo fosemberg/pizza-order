@@ -74,8 +74,10 @@ const PlaceOrder: React.FC = () => {
           if (isFormValid) {
             setErrorContent({
               header: 'Success!',
-              body: 'Your pizza will start cook soone!'
+              body: 'Your pizza will start cook soon!'
             })
+          } else {
+            setErrorContent(getRemoveToppingsModalContent(order, order.size))
           }
           setIsErrorShow(true)
         }}
@@ -162,15 +164,17 @@ const ChooseToppings: React.FC = () => {
     ) {
       setErrorContent({
         header: 'Topping Limit',
-        body: 'The maximum of toppings for current Size: ' + maximumToppings,
+        body: `The maximum of toppings for ${order.size} size: ${maximumToppings}`,
       });
       setIsErrorShow(true);
     } else {
-      setErrorContent({
-        header: '',
-        body: '',
-      });
-      setIsErrorShow(false)
+      if (newToppings.length <= maximumToppings) {
+        setErrorContent({
+          header: '',
+          body: '',
+        });
+        setIsFormValid(true)
+      }
       setOrder((prev: Order) => {
         return { ...prev, toppings: newToppings };
       });
@@ -198,6 +202,14 @@ const ChooseToppings: React.FC = () => {
   );
 };
 
+const getRemoveToppingsModalContent = (order: Order, size: string): ErrorContent => {
+  const { maximumToppings } = orderSizeInfo[size]
+  return ({
+    header: 'Topping Limit',
+    body: `Please, remove ${order.toppings.length - maximumToppings} toppings. The maximum of toppings for ${order.size} size: ${maximumToppings}, but your current topping: ${order.toppings.length}`,
+  })
+}
+
 const ChooseSize: React.FC = () => {
   const {
     order,
@@ -210,10 +222,7 @@ const ChooseSize: React.FC = () => {
   const handleSetOrder = (size: string) => () => {
     const { maximumToppings } = orderSizeInfo[size]
     if (order.toppings.length > maximumToppings) {
-      setErrorContent({
-        header: 'Topping Limit',
-        body: 'Pleas, remove some toppings. The maximum of toppings for current Size: ' + maximumToppings,
-      });
+      setErrorContent(getRemoveToppingsModalContent(order, size));
       setIsFormValid(false);
       setIsErrorShow(true);
     }
