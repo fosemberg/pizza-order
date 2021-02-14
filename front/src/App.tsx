@@ -37,10 +37,11 @@ const PlaceOrder: React.FC = () => {
   const {toppings, size} = order;
 
   const sizePrice = sizePrices[size].price
+  const crustTypePrice = order.isThick ? 400 : 200
   const toppingsPrice = toppings.length > 3
     ? (toppings.length - 3) * 50
     : 0
-  const totalPrice = sizePrice + toppingsPrice
+  const totalPrice = sizePrice + crustTypePrice + toppingsPrice
 
   return (
     <div className="order">
@@ -50,7 +51,11 @@ const PlaceOrder: React.FC = () => {
             <span>{formatToppingText(size)} Size</span>
             <span>{formatPrice(sizePrice)}</span>
           </li>
-          <li key="Toppings" className="order__item">
+          <li className="order__item">
+            <span>{order.isThick ? 'Thick' : 'Thin'} Crust type</span>
+            <span>{formatPrice(crustTypePrice)}</span>
+          </li>
+          <li className="order__item">
             <span>Toppings</span>
             <span>{formatPrice(toppingsPrice)}</span>
           </li>
