@@ -158,8 +158,13 @@ const ChooseToppings: React.FC = () => {
         header: 'Topping Limit',
         body: 'The maximum of toppings for current Size: ' + maximumToppings,
       });
-      setIsFormValid(true);
+      setIsFormValid(false);
     } else {
+      setErrorContent({
+        header: '',
+        body: '',
+      });
+      setIsFormValid(true);
       setOrder((prev: Order) => {
         return { ...prev, toppings: newToppings };
       });
@@ -188,9 +193,23 @@ const ChooseToppings: React.FC = () => {
 };
 
 const ChooseSize: React.FC = () => {
-  const { order, setOrder } = React.useContext(Context);
+  const {
+    order,
+    setOrder,
+    setErrorContent,
+    setIsFormValid,
+  } = React.useContext(Context);
 
   const handleSetOrder = (size: string) => () => {
+    const { maximumToppings } = orderSizeInfo[size]
+    if (order.toppings.length > maximumToppings) {
+      setErrorContent({
+        header: 'Topping Limit',
+        body: 'Pleas, remove some toppings. The maximum of toppings for current Size: ' + maximumToppings,
+      });
+      setIsFormValid(false);
+    }
+
     setOrder((prev: Order) => ({ ...prev, size }));
   };
 
