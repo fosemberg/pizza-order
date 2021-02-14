@@ -13,9 +13,9 @@ yarn start
 open in browser:  
 http://localhost:3000/
 
-preview desktop:
+preview desktop:  
 ![](.README_images/preview-desktop.png)
 
-preview mobile:
-![](.README_images/preview-mobile.png)
+preview mobile:  
+![](.README_images/preview-mobile.png)  
 ![](.README_images/preview-mobile-end.png)
