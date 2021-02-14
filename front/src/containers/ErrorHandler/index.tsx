@@ -9,16 +9,14 @@ const ErrorHandler: React.FC = () => {
   const {
     isFormValid,
     errorContent,
-    setErrorContent,
+    isErrorShow,
+    setIsErrorShow
   } = useContext(Context);
 
-  const handleClose = () => setErrorContent({
-    header: '',
-    body: '',
-  });
+  const handleClose = () => setIsErrorShow(false);
 
   return <div className="ErrorHandler">
-    <Modal show={!!(errorContent.header || errorContent.body)} onHide={handleClose}>
+    <Modal show={isErrorShow} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{errorContent.header}</Modal.Title>
       </Modal.Header>

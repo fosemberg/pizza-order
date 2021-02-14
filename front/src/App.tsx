@@ -138,6 +138,7 @@ const ChooseToppings: React.FC = () => {
     setOrder,
     setErrorContent,
     setIsFormValid,
+    setIsErrorShow,
   } = React.useContext(Context);
 
   const toggleSelect = (order: Order, topping: ToppingData) => () => {
@@ -159,12 +160,14 @@ const ChooseToppings: React.FC = () => {
         body: 'The maximum of toppings for current Size: ' + maximumToppings,
       });
       setIsFormValid(false);
+      setIsErrorShow(true);
     } else {
       setErrorContent({
         header: '',
         body: '',
       });
       setIsFormValid(true);
+      setIsErrorShow(false)
       setOrder((prev: Order) => {
         return { ...prev, toppings: newToppings };
       });
@@ -198,6 +201,7 @@ const ChooseSize: React.FC = () => {
     setOrder,
     setErrorContent,
     setIsFormValid,
+    setIsErrorShow,
   } = React.useContext(Context);
 
   const handleSetOrder = (size: string) => () => {
@@ -208,6 +212,7 @@ const ChooseSize: React.FC = () => {
         body: 'Pleas, remove some toppings. The maximum of toppings for current Size: ' + maximumToppings,
       });
       setIsFormValid(false);
+      setIsErrorShow(true);
     }
 
     setOrder((prev: Order) => ({ ...prev, size }));
@@ -265,6 +270,8 @@ interface ContextProps {
   setIsFormValid: (bool: boolean) => void;
   errorContent: ErrorContent;
   setErrorContent: (errorContent: ErrorContent) => void;
+  isErrorShow: boolean;
+  setIsErrorShow: (isErrorShow: boolean) => void;
 }
 
 export const Context = React.createContext<ContextProps>({
@@ -280,7 +287,9 @@ export const Context = React.createContext<ContextProps>({
     header: '',
     body: '',
   },
-  setErrorContent: () => {}
+  setErrorContent: () => {},
+  isErrorShow: false,
+  setIsErrorShow: () => {},
 });
 
 const App: React.FC = () => {
@@ -294,6 +303,7 @@ const App: React.FC = () => {
     header: '',
     body: '',
   });
+  const [isErrorShow, setIsErrorShow] = React.useState(false);
 
   return (
     <Context.Provider
@@ -304,6 +314,8 @@ const App: React.FC = () => {
         setIsFormValid,
         errorContent,
         setErrorContent,
+        isErrorShow,
+        setIsErrorShow,
       }}
     >
       <div className="app">
