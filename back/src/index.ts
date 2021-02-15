@@ -1,8 +1,9 @@
 import { config } from "dotenv"
 config();
-import {app} from './expressApp';
-import {DB_FULL_PATH} from "./constants";
-import {SERVER_HTTP_PORT} from "../config/env";
+
+import { app } from './expressApp';
+import { DB_FULL_PATH } from "./constants";
+import { SERVER_HTTP_PORT } from "../config/env";
 import { orderSizeInfo, toppings } from './data';
 import { IBody } from './types';
 import { Order } from './types/apiTypes';
