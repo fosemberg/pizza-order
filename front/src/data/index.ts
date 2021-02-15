@@ -3,13 +3,36 @@ import {SERVER_HOST, SERVER_HTTP_PORT} from "../config/env";
 import { ModalContent, Order, OrderSize} from '../types';
 import { OrderSizeInfo, ToppingData, ToppingName } from '../types/apiTypes';
 
+export interface StoreItem<T = any> {
+  data: T;
+  isLoading: boolean;
+  error: string;
+}
+
 const hostUrl = `${SERVER_HOST}:${SERVER_HTTP_PORT}`;
+
+function fetchStoreFabric<T = any> (endPoint: string) {
+  return (): Promise<T> => {
+    const fullUrl = `${hostUrl}/${endPoint}`
+    return fetch(`${fullUrl}`).then((res) => res.json());
+  }
+}
+
+export function getDefaultStore<T> (defaultData: T): StoreItem<T> {
+  return ({
+    data: defaultData,
+    isLoading: true,
+    error: '',
+  })
+}
 
 export const orderSizeInfo: OrderSizeInfo = {
   [OrderSize.Small]: { price: 800, inches: 8, maximumToppings: 5 },
   [OrderSize.Medium]: { price: 1_000, inches: 12, maximumToppings: 7 },
   [OrderSize.Large]: { price: 1_200, inches: 16, maximumToppings: 9 }
 };
+
+export const fetchOrderSizeInfo = fetchStoreFabric<OrderSizeInfo>('orderSizeInfo')
 
 export const toppings: ToppingData[] = [
   { name: ToppingName.Pepperoni, onPizza: 'pepperoni.png'},
@@ -24,20 +47,11 @@ export const toppings: ToppingData[] = [
   { name: ToppingName.Spinach, onPizza: 'spinach.png' },
 ];
 
-export const fetchToppings = (): Promise<ToppingData[]> => {
-  const endPoint = 'toppings';
-  const fullUrl = `${hostUrl}/${endPoint}`;
-  return fetch(`${fullUrl}`).then((res) => res.json());
-};
-
-export interface ToppingsStore {
-  data: ToppingData[],
-  isLoading: boolean,
-  error: string,
-}
+export const fetchToppings = fetchStoreFabric<ToppingData[]>('toppings')
 
 interface ContextProps {
-  toppings: ToppingsStore;
+  toppings: StoreItem<ToppingData[]>;
+  orderSizeInfo: StoreItem<OrderSizeInfo>;
   order: Order;
   setOrder: (order: any) => void;
   isFormValid: boolean;
@@ -49,11 +63,8 @@ interface ContextProps {
 }
 
 export const Context = React.createContext<ContextProps>({
-  toppings: {
-    data: [],
-    isLoading: false,
-    error: '',
-  },
+  orderSizeInfo: getDefaultStore<OrderSizeInfo>({}),
+  toppings: getDefaultStore<ToppingData[]>([]),
   order: {
     size: '',
     isThick: false,

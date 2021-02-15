@@ -1,18 +1,31 @@
 import React from 'react';
 
 import { Context } from '../../data';
-import { orderSizeInfo } from '../../data';
 import { formatPrice, formatToppingText } from '../../utils';
 
 import './index.scss'
+import { Alert, Spinner } from 'react-bootstrap';
 
 const OrderInfo: React.FC = () => {
   const {
     order,
+    orderSizeInfo,
   } = React.useContext(Context);
-  const {toppings, size} = order;
+  if (orderSizeInfo.isLoading) {
+    return <div className="OrderInfo">
+      <Spinner animation="border" variant="warning" />
+    </div>
+  }
+  if (orderSizeInfo.error) {
+    return <div className="OrderInfo">
+      <Alert variant="danger">{orderSizeInfo.error}</Alert>
+    </div>
+  }
 
-  const sizePrice = orderSizeInfo[size].price
+  console.log('front/src/containers/OrderInfo/index.tsx:orderSizeInfo', orderSizeInfo);
+
+  const {toppings, size} = order;
+  const sizePrice = orderSizeInfo.data[size].price
   const crustTypePrice = order.isThick ? 400 : 200
   const toppingsPrice = toppings.length > 3
     ? (toppings.length - 3) * 50
