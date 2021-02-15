@@ -2,6 +2,9 @@
 
 Make your own pizza and order it!
 
+Video demonstrating project work  
+[![Video demonstrating project work](.README_images/video-preview.png)](https://youtu.be/w3uJLB2OQV4)
+
 [technical task](./TASK.md)
 
 ## Technologies
