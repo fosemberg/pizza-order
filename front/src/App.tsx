@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import ModalContainer from './containers/Modal';
-import {Order, OrderSize,} from './types';
 import { Context, fetchOrderSizeInfo, fetchToppings, getDefaultStore, StoreItem } from './data';
 import PizzaForm from './containers/PizzaForm';
 import PizzaDisplay from './containers/PizzaDisplay';
 
 import './App.scss';
-import { OrderSizeInfo, ToppingData } from './types/apiTypes';
+import { Order, OrderSize, OrderSizeInfo, ToppingData } from './types/apiTypes';
 
 const App: React.FC = () => {
   const [toppings, setToppings] = useState<StoreItem<ToppingData[]>>(getDefaultStore<ToppingData[]>([]))

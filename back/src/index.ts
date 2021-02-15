@@ -4,6 +4,8 @@ import {app} from './expressApp';
 import {DB_FULL_PATH} from "./constants";
 import {SERVER_HTTP_PORT} from "../config/env";
 import { orderSizeInfo, toppings } from './data';
+import { IBody } from './types';
+import { Order } from './types/apiTypes';
 
 const DataStore = require('nedb');
 
@@ -29,6 +31,31 @@ app.get(
     setTimeout(() => {
       res.json(orderSizeInfo)
     }, 750)
+  }
+)
+
+app.post(
+  '/newOrder',
+  (
+    {
+      body,
+    }: IBody<Order>,
+    res
+  ) => {
+    console.log('new order', body);
+    db.insert(
+      body,
+      (err, newDoc) => {
+        if (err) {
+          res.status(500)
+          res.json({isOk: false})
+          console.error(err)
+        }
+        setTimeout(() => {
+          res.send('Your pizza will start cook soon!')
+        }, 750)
+      }
+    )
   }
 )
 

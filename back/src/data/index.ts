@@ -1,5 +1,4 @@
-import { OrderSizeInfo, ToppingData, ToppingName } from '../../../front/src/types/apiTypes';
-import { OrderSize } from '../../../front/src/types';
+import { OrderSize, OrderSizeInfo, ToppingData, ToppingName } from '../../../front/src/types/apiTypes';
 
 export const orderSizeInfo: OrderSizeInfo = {
   [OrderSize.Small]: { price: 800, inches: 8, maximumToppings: 5 },

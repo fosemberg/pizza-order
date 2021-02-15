@@ -24,3 +24,15 @@ export interface ToppingData {
   onPizza?: string;
   titleColor?: string;
 }
+
+export enum OrderSize {
+  Small = 'small',
+  Medium = 'medium',
+  Large = 'large',
+}
+
+export type Order = {
+  size: OrderSize;
+  isThick: boolean;
+  toppings: ToppingData[];
+};

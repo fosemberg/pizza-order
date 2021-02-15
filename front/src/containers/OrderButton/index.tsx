@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Context } from '../../data';
+import { Context, sendNewOrder } from '../../data';
 
 import './index.scss'
 import { getRemoveToppingsModalContent } from '../../utils';
@@ -14,17 +14,30 @@ const OrderButton: React.FC = () => {
     setIsModalShow,
     setModalContent,
   } = React.useContext(Context);
+
+  const [isLoading, seIsLoading] = useState<boolean>(false)
+
   return (
     <button
-      onClick={() => {
-        if (orderSizeInfo.isLoading || orderSizeInfo.error) {
+      onClick={async () => {
+        if (orderSizeInfo.isLoading || orderSizeInfo.error || isLoading) {
           return
         }
         if (isFormValid) {
-          setModalContent({
-            header: 'Success!',
-            body: 'Your pizza will start cook soon!'
-          })
+          try {
+            seIsLoading(true)
+            const response = await sendNewOrder(order)
+            setModalContent({
+              header: 'Success!',
+              body: response
+            })
+            seIsLoading(false)
+          } catch (e) {
+            setModalContent({
+              header: 'Error',
+              body: String(e)
+            })
+          }
         } else {
           setModalContent(getRemoveToppingsModalContent(order, order.size, orderSizeInfo.data))
         }
@@ -32,7 +45,7 @@ const OrderButton: React.FC = () => {
       }}
       className="OrderButton"
     >
-      {orderSizeInfo.isLoading
+      {orderSizeInfo.isLoading || isLoading
         ? <Spinner animation="border" variant="warning" />
         : orderSizeInfo.error
           ? orderSizeInfo.error

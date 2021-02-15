@@ -1,6 +1,6 @@
-import { ModalContent, Order } from '../types';
+import { ModalContent} from '../types';
 import * as _ from 'lodash';
-import { OrderSizeInfo } from '../types/apiTypes';
+import { Order, OrderSizeInfo } from '../types/apiTypes';
 
 export const formatToppingText = (str: string) => {
   return _.capitalize(str).replace(/-/g, ' ');

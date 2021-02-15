@@ -1,10 +1,10 @@
 import React from 'react';
 import { Context } from '../../data';
 import { classList, getRemoveToppingsModalContent } from '../../utils';
-import { Order } from '../../types';
 
 import './index.scss'
 import { Alert, Spinner } from 'react-bootstrap';
+import { Order } from '../../types/apiTypes';
 
 const SizePicker: React.FC = () => {
   const {

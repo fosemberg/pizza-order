@@ -2,12 +2,11 @@ import React from 'react';
 import * as _ from 'lodash';
 
 import { Context } from '../../data';
-import { Order} from '../../types';
 import CardToggle from '../../components/CardToggle';
 import { formatToppingText } from '../../utils';
 
 import './index.scss'
-import { ToppingData } from '../../types/apiTypes';
+import { Order, ToppingData } from '../../types/apiTypes';
 import { Alert, Spinner } from 'react-bootstrap';
 
 const ToppingsPicker: React.FC = () => {
