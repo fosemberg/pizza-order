@@ -19,15 +19,16 @@ app.get(
   (req, res) => {
     setTimeout(() => {
       res.json(toppings)
-    }, 1000)
-
+    }, 1500)
   }
 )
 
 app.get(
   '/orderSizeInfo',
   (req, res) => {
-    res.json(orderSizeInfo)
+    setTimeout(() => {
+      res.json(orderSizeInfo)
+    }, 750)
   }
 )
 

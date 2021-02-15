@@ -26,21 +26,24 @@ const App: React.FC = () => {
   const [isModalShow, setIsModalShow] = React.useState(false);
 
   useEffect(() => {
-    (async () => {
-      try {
-        setToppings({
-          data: await fetchToppings(),
-          isLoading: false,
-          error: '',
+    ;(async () => {
+      fetchToppings()
+        .then((toppingsRequest) => {
+          setToppings({
+            data: toppingsRequest,
+            isLoading: false,
+            error: '',
+          })
         })
-      } catch (e) {
-        setToppings({
-          data: [],
-          isLoading: false,
-          error: String(e),
+        .catch((e) => {
+          setToppings({
+            data: [],
+            isLoading: false,
+            error: String(e),
+          })
         })
-      }
-
+    })()
+    ;(async () => {
       try {
         setOrderSizeInfo({
           data: await fetchOrderSizeInfo(),

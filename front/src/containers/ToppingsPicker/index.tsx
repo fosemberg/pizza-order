@@ -1,7 +1,7 @@
 import React from 'react';
 import * as _ from 'lodash';
 
-import { Context, orderSizeInfo } from '../../data';
+import { Context } from '../../data';
 import { Order} from '../../types';
 import CardToggle from '../../components/CardToggle';
 import { formatToppingText } from '../../utils';
@@ -12,6 +12,7 @@ import { Alert, Spinner } from 'react-bootstrap';
 
 const ToppingsPicker: React.FC = () => {
   const {
+    orderSizeInfo,
     toppings,
     order,
     setOrder,
@@ -26,7 +27,7 @@ const ToppingsPicker: React.FC = () => {
       ? order.toppings.filter((t) => t.name !== topping.name)
       : [...order.toppings, topping];
 
-    const { maximumToppings } = orderSizeInfo[order.size]
+    const { maximumToppings } = orderSizeInfo.data[order.size]
 
     if (
       newToppings.length > maximumToppings &&
@@ -54,9 +55,9 @@ const ToppingsPicker: React.FC = () => {
   return (
     <div className="ToppingsPicker">
       <div className="ToppingsPicker__list">
-        { toppings.isLoading
+        { toppings.isLoading || orderSizeInfo.isLoading
           ? <Spinner animation="border" variant="warning" />
-          : toppings.error
+          : toppings.error || orderSizeInfo.error
             ? <Alert variant="danger">{toppings.error}</Alert>
             : toppings.data.map((topping) => (
               <CardToggle

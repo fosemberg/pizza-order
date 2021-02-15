@@ -1,6 +1,6 @@
-import { orderSizeInfo } from '../data';
 import { ModalContent, Order } from '../types';
 import * as _ from 'lodash';
+import { OrderSizeInfo } from '../types/apiTypes';
 
 export const formatToppingText = (str: string) => {
   return _.capitalize(str).replace(/-/g, ' ');
@@ -24,7 +24,7 @@ export const classList = (classes: object) => {
     .join(' ');
 };
 
-export const getRemoveToppingsModalContent = (order: Order, size: string): ModalContent => {
+export const getRemoveToppingsModalContent = (order: Order, size: string, orderSizeInfo: OrderSizeInfo): ModalContent => {
   const { maximumToppings } = orderSizeInfo[size]
   return ({
     header: 'Toppings Limit',

@@ -19,7 +19,7 @@ const SizePicker: React.FC = () => {
   const handleSetOrder = (size: string) => () => {
     const { maximumToppings } = orderSizeInfo.data[size]
     if (order.toppings.length > maximumToppings) {
-      setModalContent(getRemoveToppingsModalContent(order, size));
+      setModalContent(getRemoveToppingsModalContent(order, size, orderSizeInfo.data));
       setIsFormValid(false);
       setIsModalShow(true);
     }
