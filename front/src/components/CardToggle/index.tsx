@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 import PizzaToggle, { PizzaTogglePizzaShape, PizzaToggleToppingShape } from '../PizzaToggle';
-import { ToppingName } from '../../types';
+import { ToppingName } from '../../types/apiTypes';
 
 interface CardToggleProps {
   className?: string;

@@ -1,5 +1,9 @@
 import React from 'react';
-import { ModalContent, Order, OrderSize, OrderSizeInfo, ToppingData, ToppingName } from '../types';
+import {SERVER_HOST, SERVER_HTTP_PORT} from "../config/env";
+import { ModalContent, Order, OrderSize} from '../types';
+import { OrderSizeInfo, ToppingData, ToppingName } from '../types/apiTypes';
+
+const hostUrl = `${SERVER_HOST}:${SERVER_HTTP_PORT}`;
 
 export const orderSizeInfo: OrderSizeInfo = {
   [OrderSize.Small]: { price: 800, inches: 8, maximumToppings: 5 },
@@ -20,7 +24,20 @@ export const toppings: ToppingData[] = [
   { name: ToppingName.Spinach, onPizza: 'spinach.png' },
 ];
 
+export const fetchToppings = (): Promise<ToppingData[]> => {
+  const endPoint = 'toppings';
+  const fullUrl = `${hostUrl}/${endPoint}`;
+  return fetch(`${fullUrl}`).then((res) => res.json());
+};
+
+export interface ToppingsStore {
+  data: ToppingData[],
+  isLoading: boolean,
+  error: string,
+}
+
 interface ContextProps {
+  toppings: ToppingsStore;
   order: Order;
   setOrder: (order: any) => void;
   isFormValid: boolean;
@@ -32,6 +49,11 @@ interface ContextProps {
 }
 
 export const Context = React.createContext<ContextProps>({
+  toppings: {
+    data: [],
+    isLoading: false,
+    error: '',
+  },
   order: {
     size: '',
     isThick: false,

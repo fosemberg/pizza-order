@@ -1,0 +1,16 @@
+{
+  "name": "pizza-order",
+  "version": "1.0.0",
+  "description": "Pizza order app",
+  "main": "index.js",
+  "scripts": {
+    "apiTypes": "ncp types/apiTypes.ts back/src/types/apiTypes.ts && ncp types/apiTypes.ts front/src/types/apiTypes.ts",
+    "copy-default-configs": "ncp back/.env.example back/.env && ncp back/db/db.json.example back/db/db.json && ncp front/.env.example front/.env"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ncp": "^2.0.0"
+  }
+}

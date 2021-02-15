@@ -1,15 +1,18 @@
 import React from 'react';
 import * as _ from 'lodash';
 
-import { Context, orderSizeInfo, toppings } from '../../data';
-import { Order, ToppingData } from '../../types';
+import { Context, orderSizeInfo } from '../../data';
+import { Order} from '../../types';
 import CardToggle from '../../components/CardToggle';
 import { formatToppingText } from '../../utils';
 
 import './index.scss'
+import { ToppingData } from '../../types/apiTypes';
+import { Alert, Spinner } from 'react-bootstrap';
 
 const ToppingsPicker: React.FC = () => {
   const {
+    toppings,
     order,
     setOrder,
     setModalContent,
@@ -51,19 +54,24 @@ const ToppingsPicker: React.FC = () => {
   return (
     <div className="ToppingsPicker">
       <div className="ToppingsPicker__list">
-        {toppings.map((topping) => (
-          <CardToggle
-            key={topping.name}
-            onClick={toggleSelect(order, topping)}
-            checked={!!_.find(order.toppings, {
-              name: topping.name
-            })}
-            imgSrc={`./toggles/${topping.onPizza}`}
-            titleText={formatToppingText(topping.name)}
-            titleColor={topping.titleColor}
-            toppingName={topping.name}
-          />
-        ))}
+        { toppings.isLoading
+          ? <Spinner animation="border" variant="warning" />
+          : toppings.error
+            ? <Alert variant="danger">{toppings.error}</Alert>
+            : toppings.data.map((topping) => (
+              <CardToggle
+                key={topping.name}
+                onClick={toggleSelect(order, topping)}
+                checked={!!_.find(order.toppings, {
+                  name: topping.name
+                })}
+                imgSrc={`./toggles/${topping.onPizza}`}
+                titleText={formatToppingText(topping.name)}
+                titleColor={topping.titleColor}
+                toppingName={topping.name}
+              />
+            ))
+        }
       </div>
     </div>
   );
