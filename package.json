@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "apiTypes": "ncp types/apiTypes.ts back/src/types/apiTypes.ts && ncp types/apiTypes.ts front/src/types/apiTypes.ts",
-    "copy-default-configs": "ncp back/.env.example back/.env"
+    "copy-default-configs": "ncp back/.env.example back/.env && ncp front/.env.development.example front/.env.development && ncp front/.env.production.example front/.env.production"
   },
   "keywords": [],
   "author": "",

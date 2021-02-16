@@ -1,7 +1,8 @@
 import React from 'react';
-import { SERVER_HOST, SERVER_HTTP_PORT } from '../config/env';
+import { IS_STUBS, SERVER_HOST, SERVER_HTTP_PORT } from '../config/env';
 import { ModalContent } from '../types';
 import { Order, OrderSize, OrderSizeInfo, ToppingData } from '../types/apiTypes';
+import { fetchStubStoreFabric, orderSizeInfoStub, toppingsStub } from '../stubs';
 
 export interface StoreItem<T = any> {
   data: T;
@@ -26,8 +27,13 @@ export function getDefaultStore<T> (defaultData: T): StoreItem<T> {
   })
 }
 
-export const fetchOrderSizeInfo = fetchStoreFabric<OrderSizeInfo>('orderSizeInfo')
-export const fetchToppings = fetchStoreFabric<ToppingData[]>('toppings')
+export const fetchOrderSizeInfo = IS_STUBS
+  ? fetchStubStoreFabric<OrderSizeInfo>(orderSizeInfoStub, 750)
+  : fetchStoreFabric<OrderSizeInfo>('orderSizeInfo')
+
+export const fetchToppings = IS_STUBS
+  ? fetchStubStoreFabric<ToppingData[]>(toppingsStub, 1500)
+  : fetchStoreFabric<ToppingData[]>('toppings')
 
 export const sendNewOrder = (order: Order) => {
   const endPoint = 'newOrder'
