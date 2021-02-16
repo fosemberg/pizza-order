@@ -2,7 +2,7 @@ import React from 'react';
 import { IS_STUBS, SERVER_HOST, SERVER_HTTP_PORT } from '../config/env';
 import { ModalContent } from '../types';
 import { Order, OrderSize, OrderSizeInfo, ToppingData } from '../types/apiTypes';
-import { fetchStubStoreFabric, orderSizeInfoStub, toppingsStub } from '../stubs';
+import { fetchStubStoreFabric, orderSizeInfoStub, sendDataStubStoreFabric, toppingsStub } from '../stubs';
 
 export interface StoreItem<T = any> {
   data: T;
@@ -35,7 +35,9 @@ export const fetchToppings = IS_STUBS
   ? fetchStubStoreFabric<ToppingData[]>(toppingsStub, 1500)
   : fetchStoreFabric<ToppingData[]>('toppings')
 
-export const sendNewOrder = (order: Order) => {
+export const sendNewOrder = IS_STUBS
+? sendDataStubStoreFabric<Order, string>('Your pizza will start cook soon!', 750)
+: (order: Order): Promise<string> => {
   const endPoint = 'newOrder'
   const fullUrl = `${hostUrl}/${endPoint}`
   return fetch(

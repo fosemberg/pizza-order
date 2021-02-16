@@ -29,3 +29,11 @@ export function fetchStubStoreFabric<T = any> (stubData: T, timeout: number = 50
     return stubData;
   }
 }
+
+export function sendDataStubStoreFabric<I = any, O = any> (stubData: O, timeout: number = 500) {
+  return async (sendData: I): Promise<O> => {
+    await sleep(timeout)
+    return stubData;
+  }
+}
+
