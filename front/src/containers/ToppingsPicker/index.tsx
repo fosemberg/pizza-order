@@ -65,7 +65,7 @@ const ToppingsPicker: React.FC = () => {
                 checked={!!_.find(order.toppings, {
                   name: topping.name
                 })}
-                imgSrc={`./toggles/${topping.onPizza}`}
+                imgSrc={`${process.env.PUBLIC_URL}/toggles/${topping.onPizza}`}
                 titleText={formatToppingText(topping.name)}
                 titleColor={topping.titleColor}
                 toppingName={topping.name}

@@ -13,7 +13,7 @@ const CrustTypePicker: React.FC = () => {
 
   return (
     <CardToggle
-      imgSrc="./toggles/thin-thick-middle-pizza-with-arrows.png"
+      imgSrc={`${process.env.PUBLIC_URL}/toggles/thin-thick-middle-pizza-with-arrows.png`}
       titleText="&nbsp;THIN / THICK"
       titleColor="black"
       pizzaShape={PizzaTogglePizzaShape.Thick}

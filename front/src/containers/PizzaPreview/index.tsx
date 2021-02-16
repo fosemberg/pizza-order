@@ -19,19 +19,19 @@ const PizzaPreview: React.FC<PizzaPreviewProps> = (
     <div className={`PizzaPreview ${className}`}>
       <img
         className="PizzaPreview__part"
-        src={`./pizza-base.png`}
+        src={`${process.env.PUBLIC_URL}/pizza-base.png`}
         alt=""
       />
       <img
         className="PizzaPreview__part"
-        src={`./pizza-sauce.png`}
+        src={`${process.env.PUBLIC_URL}/pizza-sauce.png`}
         alt=""
       />
       {order.toppings.map(({onPizza}, i) => (
         <img
           key={onPizza}
           className="PizzaPreview__part"
-          src={`./toppings/on-pizza/${onPizza}`}
+          src={`${process.env.PUBLIC_URL}/toppings/on-pizza/${onPizza}`}
           alt=""
         />
       ))}
