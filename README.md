@@ -2,6 +2,8 @@
 
 Make your own pizza and order it!
 
+[live demo](https://fosemberg.github.io/pizza-order/)
+
 Video demonstrating project work  
 [![Video demonstrating project work](.README_images/video-preview.png)](https://youtu.be/w3uJLB2OQV4)
 
