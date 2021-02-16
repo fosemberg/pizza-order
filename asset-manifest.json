@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.0f9a40ad.chunk.css",
-    "main.js": "/static/js/main.fa9bd5cc.chunk.js",
-    "main.js.map": "/static/js/main.fa9bd5cc.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.3ac52451.js",
-    "runtime-main.js.map": "/static/js/runtime-main.3ac52451.js.map",
-    "static/css/2.658248ec.chunk.css": "/static/css/2.658248ec.chunk.css",
-    "static/js/2.5e50cb58.chunk.js": "/static/js/2.5e50cb58.chunk.js",
-    "static/js/2.5e50cb58.chunk.js.map": "/static/js/2.5e50cb58.chunk.js.map",
-    "index.html": "/index.html",
-    "service-worker.js": "/service-worker.js",
-    "service-worker.js.map": "/service-worker.js.map",
-    "static/css/2.658248ec.chunk.css.map": "/static/css/2.658248ec.chunk.css.map",
-    "static/css/main.0f9a40ad.chunk.css.map": "/static/css/main.0f9a40ad.chunk.css.map",
-    "static/js/2.5e50cb58.chunk.js.LICENSE.txt": "/static/js/2.5e50cb58.chunk.js.LICENSE.txt"
+    "main.css": "/pizza-order/static/css/main.0f9a40ad.chunk.css",
+    "main.js": "/pizza-order/static/js/main.d509c9f2.chunk.js",
+    "main.js.map": "/pizza-order/static/js/main.d509c9f2.chunk.js.map",
+    "runtime-main.js": "/pizza-order/static/js/runtime-main.1000bafc.js",
+    "runtime-main.js.map": "/pizza-order/static/js/runtime-main.1000bafc.js.map",
+    "static/css/2.658248ec.chunk.css": "/pizza-order/static/css/2.658248ec.chunk.css",
+    "static/js/2.5e50cb58.chunk.js": "/pizza-order/static/js/2.5e50cb58.chunk.js",
+    "static/js/2.5e50cb58.chunk.js.map": "/pizza-order/static/js/2.5e50cb58.chunk.js.map",
+    "index.html": "/pizza-order/index.html",
+    "service-worker.js": "/pizza-order/service-worker.js",
+    "service-worker.js.map": "/pizza-order/service-worker.js.map",
+    "static/css/2.658248ec.chunk.css.map": "/pizza-order/static/css/2.658248ec.chunk.css.map",
+    "static/css/main.0f9a40ad.chunk.css.map": "/pizza-order/static/css/main.0f9a40ad.chunk.css.map",
+    "static/js/2.5e50cb58.chunk.js.LICENSE.txt": "/pizza-order/static/js/2.5e50cb58.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.3ac52451.js",
+    "static/js/runtime-main.1000bafc.js",
     "static/css/2.658248ec.chunk.css",
     "static/js/2.5e50cb58.chunk.js",
     "static/css/main.0f9a40ad.chunk.css",
-    "static/js/main.fa9bd5cc.chunk.js"
+    "static/js/main.d509c9f2.chunk.js"
   ]
 }
