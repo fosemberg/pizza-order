@@ -1,13 +1,17 @@
 .PizzaPreview {
   position: relative;
-  min-width: 500px;
-  flex-basis: 500px;
   flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 500px;
+  flex-basis: 500px;
 
   @media (max-width: 500px) {
+    min-width: 400px;
+  }
+
+  @media (max-width: 400px) {
     min-width: 100vw;
     width: 100vw;
   }
@@ -15,7 +19,7 @@
   &__part {
     position: absolute;
 
-    @media (max-width: 500px) {
+    @media (max-width: 400px) {
       min-width: 100vw;
       width: 100vw;
     }

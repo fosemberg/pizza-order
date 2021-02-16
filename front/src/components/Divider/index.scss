@@ -1,5 +1,3 @@
-$red: #f56565;
-
 .Divider {
   width: 100%;
   display: flex;
@@ -7,16 +5,7 @@ $red: #f56565;
   text-align: center;
   margin: 16px 0;
 
-  &::before {
-    background: rgb(255, 105, 0);
-    content: "";
-    flex: 1;
-    height: 0.1rem;
-    margin: 0 2rem;
-    width: 100%;
-  }
-
-  &::after {
+  &::before, &::after {
     background: rgb(255, 105, 0);
     content: "";
     flex: 1;
