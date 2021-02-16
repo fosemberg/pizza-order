@@ -17,32 +17,34 @@ const OrderButton: React.FC = () => {
 
   const [isLoading, seIsLoading] = useState<boolean>(false)
 
+  const tryToSendNewOrder = async () => {
+    if (orderSizeInfo.isLoading || orderSizeInfo.error || isLoading) {
+      return
+    }
+    if (isFormValid) {
+      try {
+        seIsLoading(true)
+        const response = await sendNewOrder(order)
+        setModalContent({
+          header: 'Success!',
+          body: response
+        })
+        seIsLoading(false)
+      } catch (e) {
+        setModalContent({
+          header: 'Error',
+          body: String(e)
+        })
+      }
+    } else {
+      setModalContent(getRemoveToppingsModalContent(order, order.size, orderSizeInfo.data))
+    }
+    setIsModalShow(true)
+  }
+
   return (
     <button
-      onClick={async () => {
-        if (orderSizeInfo.isLoading || orderSizeInfo.error || isLoading) {
-          return
-        }
-        if (isFormValid) {
-          try {
-            seIsLoading(true)
-            const response = await sendNewOrder(order)
-            setModalContent({
-              header: 'Success!',
-              body: response
-            })
-            seIsLoading(false)
-          } catch (e) {
-            setModalContent({
-              header: 'Error',
-              body: String(e)
-            })
-          }
-        } else {
-          setModalContent(getRemoveToppingsModalContent(order, order.size, orderSizeInfo.data))
-        }
-        setIsModalShow(true)
-      }}
+      onClick={tryToSendNewOrder}
       className="OrderButton"
     >
       {orderSizeInfo.isLoading || isLoading

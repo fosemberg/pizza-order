@@ -5,9 +5,9 @@ import ModalContainer from './containers/Modal';
 import { Context, fetchOrderSizeInfo, fetchToppings, getDefaultStore, StoreItem } from './data';
 import PizzaForm from './containers/PizzaForm';
 import PizzaDisplay from './containers/PizzaDisplay';
+import { Order, OrderSize, OrderSizeInfo, ToppingData } from './types/apiTypes';
 
 import './App.scss';
-import { Order, OrderSize, OrderSizeInfo, ToppingData } from './types/apiTypes';
 
 const App: React.FC = () => {
   const [toppings, setToppings] = useState<StoreItem<ToppingData[]>>(getDefaultStore<ToppingData[]>([]))
